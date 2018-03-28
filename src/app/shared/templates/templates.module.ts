@@ -13,6 +13,7 @@ import * as template_services from './services/template.service';
 import { TemplatesComponent } from './components/templates/templates.component';
 import { templatesRouterModule } from './routes/templates.routes.module';
 import { TemplateFormComponent } from './components/template-form/template-form.component';
+import { TemplateZonesComponent } from './components/template-zones/template-zones.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { TemplateFormComponent } from './components/template-form/template-form.
     StoreModule.forFeature('templates', templates_reducers.reducer),
     EffectsModule.forFeature([templates_effects.effects]),
   ],
-  declarations: [TemplatesComponent, TemplateFormComponent],
+  declarations: [TemplatesComponent, TemplateFormComponent, TemplateZonesComponent],
   providers: [{
     provide: template_services.templateServiceToken,
     useFactory: template_services.templateServiceFactory,
