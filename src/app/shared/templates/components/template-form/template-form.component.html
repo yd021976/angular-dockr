@@ -1,14 +1,17 @@
 <ng-container *ngIf="template">
 
-  <div fxLayout="column">
-    <h3>Details</h3>
-    <div fxLayout="row">
-      <form>
-        <mat-form-field>
-          <input matInput type="text" placeholder="Name" [(ngModel)]="template.name" name="name">
-        </mat-form-field>
-      </form>
-      <app-template-zones></app-template-zones>
+  <div fxLayout="row" class="editor">
+    <div fxLayout="column">
+      <h3>Template editor</h3>
+      <div fxLayout="row">
+        <form>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Name" [(ngModel)]="template.name" name="name">
+          </mat-form-field>
+        </form>
+      </div>
     </div>
+    <app-template-zones></app-template-zones>
   </div>
+
 </ng-container>
