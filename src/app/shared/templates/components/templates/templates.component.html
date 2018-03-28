@@ -24,8 +24,13 @@
         <button mat-button color="accent">New</button>
       </div>
     </div>
-
-
   </div>
   <app-template-form [template]="selectedTemplate"></app-template-form>
+</ng-container>
+
+
+<ng-container *ngIf="templateError$ | async as templateError">
+  <div *ngIf="templateError.hasError">
+    <H3>{{templateError.error}}</H3>
+  </div>
 </ng-container>

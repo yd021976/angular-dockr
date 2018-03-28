@@ -12,9 +12,11 @@ const templateFeatureSelector = createFeatureSelector<template_state.ITemplates>
 */
 const templateSchemaSelector = createSchemaSelectors<template_model.ITemplate>(template_model.schemas);
 const templateEntities = createSelector(templateFeatureSelector, templateSchemaSelector.getNormalizedEntities);
-const getAllTemplates = createSelector(templateEntities,templateSchemaSelector.entitiesProjector);
+const getAllTemplates = createSelector(templateEntities, templateSchemaSelector.entitiesProjector);
 
 
+const templateError = (state:template_state.ITemplates) => state.error;
+const getError = createSelector(templateFeatureSelector, templateError);
 
 /**
  * Selected template
@@ -32,8 +34,8 @@ const getAllTemplates = createSelector(templateEntities,templateSchemaSelector.e
 
 const selectors = {
   templates: {
-    feature: templateFeatureSelector,
     getAllTemplates: getAllTemplates,
+    getError: getError,
   }
 }
 

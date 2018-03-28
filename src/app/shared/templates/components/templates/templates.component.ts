@@ -14,9 +14,11 @@ import * as template_actions from '../../store/actions/template.actions';
 export class TemplatesComponent implements OnInit {
   public selectedTemplate: template_model.ITemplate;
   public templates$: Observable<any>;
+  public templateError$: Observable<template_state.error>;
 
   constructor(private store: Store<any>) {
     this.templates$ = this.store.select(templates_selectors.templates.getAllTemplates);
+    this.templateError$ = this.store.select(templates_selectors.templates.getError);
   }
 
   ngOnInit() {

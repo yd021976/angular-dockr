@@ -26,10 +26,10 @@ const selectedZoneReducer = (state: string, action: Actions) => {
   }
 }
 
-const errorReducer = (state: { hasError: boolean, error: string }, action: Actions) => {
+const errorReducer = (state: template_state.error = { hasError: false, error: '' }, action: Actions) => {
   switch (action.type) {
     case template_actions.TEMPLATE_LOAD_ERROR: {
-      return Object.assign({ hasError: true, error: action.payload }, state);
+      return { ...state, hasError: true, error: action.payload }
     }
 
     default:

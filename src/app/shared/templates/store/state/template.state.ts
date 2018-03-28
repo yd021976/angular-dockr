@@ -1,12 +1,14 @@
 import { NormalizedState, normalized, createSchemaSelectors } from 'ngrx-normalizr';
 
+export type error = {
+  hasError: boolean,
+  error: string
+}
+
 export interface ITemplates extends NormalizedState {
   selectedTemplateId: string;
   selectedZoneId: string;
-  error: {
-    hasError: boolean,
-    error: string
-  }
+  error: error
 }
 
 export const initialState = function (): ITemplates {
