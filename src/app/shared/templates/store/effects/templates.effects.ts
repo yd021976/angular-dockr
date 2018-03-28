@@ -22,7 +22,7 @@ export class effects {
   loadTemplates$ = this.actions$
     .ofType<template_actions.loadTemplates>(template_actions.TEMPLATE_LOAD)
     .switchMap(action => this.templateService.loadAll())
-    .mergeMap(results => {
+    .switchMap(results => {
       return [
         new AddData<template_model.ITemplate>({ data: <template_model.ITemplate[]>results, schema: template_model.schemas }),
         new template_actions.loadTemplatesSuccess(<template_model.ITemplate[]>results)

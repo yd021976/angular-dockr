@@ -26,8 +26,20 @@ const selectedZoneReducer = (state: string, action: Actions) => {
   }
 }
 
+const errorReducer = (state: { hasError: boolean, error: string }, action: Actions) => {
+  switch (action.type) {
+    case template_actions.TEMPLATE_LOAD_ERROR: {
+      return Object.assign({ hasError: true, error: action.payload }, state);
+    }
+
+    default:
+      return state;
+  }
+}
+
 export const reducer: ActionReducerMap<template_state.ITemplates> = {
   normalized: normalized,
   selectedTemplateId: selectedTemplateReducer,
-  selectedZoneId: selectedZoneReducer
+  selectedZoneId: selectedZoneReducer,
+  error: errorReducer
 }

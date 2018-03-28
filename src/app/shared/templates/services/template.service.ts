@@ -16,13 +16,13 @@ class mockTemplateService implements templateServiceBase {
   loadAll() {
     return Observable.of(Array({ _id: 'toto', name: 'toto', zones: [] }));
   }
-  create(payload: templates_model.ITemplate){
+  create(payload: templates_model.ITemplate) {
     return Observable.of(<templates_model.ITemplate>payload);
   }
-  update(payload: templates_model.ITemplate){
+  update(payload: templates_model.ITemplate) {
     return Observable.of(new Array<templates_model.ITemplate>(payload));
   }
-  delete(payload: templates_model.ITemplate){
+  delete(payload: templates_model.ITemplate) {
     return Observable.of(new Array<templates_model.ITemplate>(payload));
   }
 }
@@ -34,6 +34,11 @@ export class templateService implements templateServiceBase {
     this.service = feathers.service(templateServiceName);
   }
   public loadAll() {
+    this.service.find().then((result) => {
+      let a = 0;
+    }).catch((error) => {
+      let a = 0;
+    })
     return Observable.fromPromise(this.service.find());
   }
   public create(payload: templates_model.ITemplate) {
@@ -59,8 +64,8 @@ export const templateServiceFactory = (injector: Injector) => {
   var template_service: templateServiceBase;
 
   try {
-    feathers = injector.get(feathersToken,null);
-    service = injector.get(templateServiceNameToken,'templates');
+    feathers = injector.get(feathersToken, null);
+    service = injector.get(templateServiceNameToken, 'templates');
   }
   catch{
   }
