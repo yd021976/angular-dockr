@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import * as templates_reducers from './store/reducers/template.reducer';
 import * as templates_effects from './store/effects/templates.effects';
@@ -18,6 +19,7 @@ import { TemplateFormComponent } from './components/template-form/template-form.
     CommonModule,
     FormsModule,
     MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule,
+    FlexLayoutModule,
     templatesRouterModule,
     StoreModule.forFeature('templates', templates_reducers.reducer),
     EffectsModule.forFeature([templates_effects.effects]),
