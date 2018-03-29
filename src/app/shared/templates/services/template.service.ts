@@ -34,11 +34,6 @@ export class templateService implements templateServiceBase {
     this.service = feathers.service(templateServiceName);
   }
   public loadAll() {
-    this.service.find().then((result) => {
-      let a = 0;
-    }).catch((error) => {
-      let a = 0;
-    })
     return Observable.fromPromise(this.service.find());
   }
   public create(payload: templates_model.ITemplate) {

@@ -12,7 +12,6 @@ import { ViewsModule } from '../views/views.module';
 import { SharedModule} from '../shared/shared.module';
 import { AppServicesModule } from '../services/app-services.module';
 
-
 @NgModule({
   declarations: [
     AppComponent

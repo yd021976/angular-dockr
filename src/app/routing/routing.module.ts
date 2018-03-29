@@ -21,9 +21,9 @@ const routes: appRoute[] =
       path: '', redirectTo: 'home', pathMatch: 'full'
     },
     {
-      path: '', data: { isMenu: true, title: 'Home', icon: 'home' }, children: [
+      path: '', data: { isMenu: true, title: 'Home', icon: 'home' }, canActivate: [loginGuard], children: [
         {
-          path: 'home', component: HomeViewComponent, canActivate: [loginGuard], data: { isMenu: true, title: 'Home', icon: 'panorama_fish_eye', link: 'home' }
+          path: 'home', component: HomeViewComponent, data: { isMenu: true, title: 'Home', icon: 'panorama_fish_eye', link: 'home' }
         },
         {
           path: 'dashboard', component: DashboardComponent, data: { isMenu: true, title: 'dashboard', icon: '', link: 'dashboard' }

@@ -21,25 +21,30 @@ export class effects {
   @Effect()
   loadTemplates$ = this.actions$
     .ofType<template_actions.loadTemplates>(template_actions.TEMPLATE_LOAD)
-    .switchMap(action => this.templateService.loadAll())
-    .switchMap(results => {
-      return [
-        new AddData<template_model.ITemplate>({ data: <template_model.ITemplate[]>results, schema: template_model.schemas }),
-        new template_actions.loadTemplatesSuccess(<template_model.ITemplate[]>results)
-      ]
-    })
-    .catch(error => Observable.of(new template_actions.loadTemplatesError(error.message)))
+    .mergeMap(action => this.templateService.loadAll()
+      .map(result => {
+        return [
+          new AddData<template_model.ITemplate>({ data: <template_model.ITemplate[]>result, schema: template_model.schemas }),
+          new template_actions.loadTemplatesSuccess(<template_model.ITemplate[]>result)
+        ]
+      })
+      .catch(error => {
+        return [new template_actions.loadTemplatesError(error.message)]
+      })
+    )
 
 
   /** Add template action */
   @Effect()
   addTemplate$ = this.actions$
     .ofType<template_actions.addTemplate>(template_actions.TEMPLATE_ADD)
-    .switchMap(action => this.templateService.create(action.payload))
-    .mergeMap((result: template_model.ITemplate) => [
-      new AddData<template_model.ITemplate>({ data: [result], schema: template_model.schemas }),
-      new template_actions.addTemplateSuccess(result)
-    ])
-    .catch(error => Observable.of(new template_actions.addTemplateError(error.message))
+    .switchMap(action => this.templateService.create(action.payload)
+      .mergeMap((result: template_model.ITemplate) => [
+        new AddData<template_model.ITemplate>({ data: [result], schema: template_model.schemas }),
+        new template_actions.addTemplateSuccess(result)
+      ])
+      .catch(error => { return [new template_actions.addTemplateError(error.message)] }
+      )
     )
+
 }

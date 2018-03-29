@@ -25,5 +25,7 @@ export class TemplatesComponent implements OnInit {
     // Ensure we load available templates
     this.store.dispatch(new template_actions.loadTemplates());
   }
-
+  loadTemplates() {
+    this.store.dispatch(new template_actions.loadTemplates());
+  }
 }

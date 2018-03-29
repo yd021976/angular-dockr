@@ -29,7 +29,7 @@ import { feathersToken, templateServiceNameToken } from '../shared/templates/ser
     },
     {
       provide: feathersToken,
-      useClass: FeathersService
+      useExisting: feathersServiceToken
     }
   ]
 })
