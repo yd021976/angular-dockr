@@ -6,12 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { userRouterModule } from './routes/user.routes.module';
-import { LoginComponent } from './components/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import * as user_reducer from './store/reducers/user.reducer';
-import * as user_effects from './store/effects/user.effects';
-import * as user_services from './services';
-import * as user_guards from './guards/loginGuard';
+import {user_module } from './';
 /**
  * Depedencies :
  * 
@@ -25,17 +20,17 @@ import * as user_guards from './guards/loginGuard';
     FormsModule,
     MatFormFieldModule, MatInputModule, MatButtonModule,
     userRouterModule,
-    StoreModule.forFeature('user', user_reducer.reducer),
-    EffectsModule.forFeature([user_effects.effects]),
+    StoreModule.forFeature('user', user_module.store.reducers.reducer),
+    EffectsModule.forFeature([user_module.store.effects.effects]),
   ],
-  declarations: [LoginComponent, LogoutComponent],
-  exports: [LoginComponent, LogoutComponent],
+  declarations: [user_module.components.LoginComponent, user_module.components.LogoutComponent],
+  exports: [user_module.components.LoginComponent, user_module.components.LogoutComponent],
   providers:
     [
-      user_guards.loginGuard,
+      user_module.guards.loginGuard,
       {
-        provide: user_services.LoginServiceToken,
-        useFactory: user_services.loginServiceFactory,
+        provide: user_module.services.LoginServiceToken,
+        useFactory: user_module.services.loginServiceFactory,
         deps: [Injector]
       }
     ]

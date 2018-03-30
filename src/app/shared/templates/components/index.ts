@@ -1,3 +1,3 @@
-import * as forms from './template-form';
-import * as zones from './template-zones';
-import * as templates from './templates';
+export * from './template-form';
+export * from './template-zones';
+export * from './templates';

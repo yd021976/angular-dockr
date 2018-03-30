@@ -6,14 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import * as templates_reducers from './store/reducers/template.reducer';
-import * as templates_effects from './store/effects/templates.effects';
-import * as templates_state from './store/state/template.state';
-import * as template_services from './services/template.service';
-import { TemplatesComponent } from './components/templates/templates.component';
+import { template_module } from './';
 import { templatesRouterModule } from './routes/templates.routes.module';
-import { TemplateFormComponent } from './components/template-form/template-form.component';
-import { TemplateZonesComponent } from './components/template-zones/template-zones.component';
 
 @NgModule({
   imports: [
@@ -22,15 +16,15 @@ import { TemplateZonesComponent } from './components/template-zones/template-zon
     MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule,
     FlexLayoutModule,
     templatesRouterModule,
-    StoreModule.forFeature('templates', templates_reducers.reducer),
-    EffectsModule.forFeature([templates_effects.effects]),
+    StoreModule.forFeature('templates', template_module.store.reducers.reducer),
+    EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],
-  declarations: [TemplatesComponent, TemplateFormComponent, TemplateZonesComponent],
+  declarations: [template_module.components.TemplateFormComponent, template_module.components.TemplatesComponent, template_module.components.TemplateZonesComponent],
   providers: [{
-    provide: template_services.templateServiceToken,
-    useFactory: template_services.templateServiceFactory,
+    provide: template_module.services.templateServiceToken,
+    useFactory: template_module.services.templateServiceFactory,
     deps: [Injector]
   }],
-  exports: [TemplatesComponent]
+  exports: [template_module.components.TemplatesComponent]
 })
 export class TemplatesModule { }

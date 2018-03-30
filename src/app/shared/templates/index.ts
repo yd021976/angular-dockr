@@ -5,5 +5,5 @@ import * as store from './store';
 export const template_module = {
   components: components,
   services: services,
-  store: store
+  store: store.default
 }

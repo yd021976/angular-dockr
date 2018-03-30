@@ -8,7 +8,7 @@ import * as state from './state';
 export default {
   actions: actions,
   effects: effects,
-  models: models,
+  models: models.default,
   reducers: reducers,
   selectors: selectors,
   state: state

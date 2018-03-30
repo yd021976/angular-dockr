@@ -8,9 +8,6 @@ import { DashboardComponent } from '../views/dashboard/dashboard.component';
 
 // App Routing types
 import { appRoute } from './routing.types';
-import { FeathersService } from '../services/feathers/feathers.service';
-import { LoginComponent } from '../shared/user/components/login/login.component';
-
 
 
 // Define the application routes
