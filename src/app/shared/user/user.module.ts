@@ -11,7 +11,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import * as user_reducer from './store/reducers/user.reducer';
 import * as user_effects from './store/effects/user.effects';
 import * as user_services from './services';
-
+import * as user_guards from './guards/loginGuard';
 /**
  * Depedencies :
  * 
@@ -32,6 +32,7 @@ import * as user_services from './services';
   exports: [LoginComponent, LogoutComponent],
   providers:
     [
+      user_guards.loginGuard,
       {
         provide: user_services.LoginServiceToken,
         useFactory: user_services.loginServiceFactory,

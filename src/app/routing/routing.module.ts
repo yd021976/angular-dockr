@@ -9,7 +9,6 @@ import { DashboardComponent } from '../views/dashboard/dashboard.component';
 // App Routing types
 import { appRoute } from './routing.types';
 import { FeathersService } from '../services/feathers/feathers.service';
-import { loginGuard } from './guards/loginGuard';
 import { LoginComponent } from '../shared/user/components/login/login.component';
 
 
@@ -21,7 +20,7 @@ const routes: appRoute[] =
       path: '', redirectTo: 'home', pathMatch: 'full'
     },
     {
-      path: '', data: { isMenu: true, title: 'Home', icon: 'home' }, canActivate: [loginGuard], children: [
+      path: '', data: { isMenu: true, title: 'Home', icon: 'home' }, children: [
         {
           path: 'home', component: HomeViewComponent, data: { isMenu: true, title: 'Home', icon: 'panorama_fish_eye', link: 'home' }
         },
@@ -46,6 +45,6 @@ const routes: appRoute[] =
   exports: [
     RouterModule
   ],
-  providers: [loginGuard]
+  providers: []
 })
 export class RoutingModule { }

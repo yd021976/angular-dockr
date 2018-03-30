@@ -4,8 +4,8 @@ import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as user_services from '../../shared/user/services/login.service';
-import * as user_actions from '../../shared/user/store/actions/user.actions';
+import * as user_services from '../services/login.service';
+import * as user_actions from '../store/actions/user.actions';
 
 
 @Injectable()
