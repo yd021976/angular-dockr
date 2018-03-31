@@ -6,10 +6,10 @@ import * as hooks from 'feathers-hooks';
 import * as feathersAuthenticate from 'feathers-authentication-client';
 import * as feathersSocket from 'feathers-socketio/client';
 import * as socketio from 'socket.io-client';
-import { service } from '../../shared/user/services/login.service';
+import * as user_services from '../../shared/user/services';
 
 @Injectable()
-export class FeathersService implements service {
+export class FeathersService implements user_services.userService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
   public user: any = null;
@@ -65,7 +65,7 @@ export class FeathersService implements service {
       .then(response => {
         return this._feathers.passport.verifyJWT(response.accessToken)
       })
-      .then( (payload:any) => {
+      .then((payload: any) => {
         return this._feathers.service('users').get(payload.userId);
       })
       .then(user => {

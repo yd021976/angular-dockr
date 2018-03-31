@@ -1,11 +1,12 @@
 import { Injectable, Injector, InjectionToken } from '@angular/core';
 import * as user_model from '../store/models/user.model';
+import * as feathersClient from 'feathers/client';
 
 
 /**
  * Interface that feathers service must provide (@see feathersServiceToken)
  */
-export interface service {
+export interface userService {
   user: any;
   authenticate(payload?: user_model.loginCredentials): Promise<any>
   logout(): Promise<any>
@@ -15,7 +16,7 @@ export interface service {
 /**
  * Mock feather service if no one is provided by top level modules
  */
-class feathersMock implements service {
+class feathersMock implements userService {
   user: any;
   authenticate(payload: user_model.loginCredentials) {
     return new Promise<any>((resolve, reject) => { resolve(true); });
@@ -28,22 +29,40 @@ class feathersMock implements service {
   }
 }
 
+class loginService implements userService {
+  user: any;
+  constructor(private feathers: feathersClient.Application) { }
+  
+  authenticate(payload?) {
+    return this.feathers.authenticate(payload);
+  }
+  
+  logout() {
+    return this.feathers.logout();
+  }
+
+  isAuth() {
+    return new Promise<any>((resolve, reject) => {
+      resolve(true);
+    })
+  }
+}
 
 /**
  * declare the feather service depedency token ==> Must be provided by parent module (appModule or any top level module)
  */
-export const feathersServiceToken:InjectionToken<service> = new InjectionToken<service>('FeatherService');
+export const feathersServiceToken: InjectionToken<userService> = new InjectionToken<userService>('FeatherService');
 
 /**
  * Declare "LoginService" token that this module provides
  */
-export const LoginServiceToken:InjectionToken<service> = new InjectionToken<service>('LoginService');
+export const LoginServiceToken: InjectionToken<userService> = new InjectionToken<userService>('LoginService');
 
 export const loginServiceFactory = (injector: Injector) => {
   var feathers = null;
   try {
     feathers = injector.get(feathersServiceToken);
-    return feathers;
+    return new loginService(feathers);
   }
   catch{
     feathers = new feathersMock();

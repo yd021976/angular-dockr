@@ -5,16 +5,15 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import * as user_services from '../../services';
 import { Observable } from "rxjs/Observable";
-import * as userActions from "../actions/user.actions";
 import { Router } from "@angular/router";
-
+import * as user_service from '../../services/index';
+import * as user_actions from '../actions/user.actions';
 
 @Injectable()
 export class effects {
   constructor(
-    @Inject(user_services.feathersServiceToken) private featherService: user_services.service,
+    @Inject(user_service.feathersServiceToken) private featherService: user_service.userService,
     private router: Router,
     private actions$: Actions) { }
 
@@ -23,8 +22,8 @@ export class effects {
   * navigate to login page
   */
   @Effect({ dispatch: false })
-  navigateLogin$: Observable<userActions.userLoginNavigate> = this.actions$
-    .ofType<userActions.userLoginNavigate>(userActions.USER_LOGIN_NAVIGATE)
+  navigateLogin$: Observable<user_actions.userLoginNavigate> = this.actions$
+    .ofType<user_actions.userLoginNavigate>(user_actions.USER_LOGIN_NAVIGATE)
     .do(_ => {
       return this.router.navigate(['login']);
     });
@@ -33,8 +32,8 @@ export class effects {
   * navigate to logout page
   */
   @Effect({ dispatch: false })
-  navigateLogout$: Observable<userActions.userLogoutNavigate> = this.actions$
-    .ofType<userActions.userLogoutNavigate>(userActions.USER_LOGOUT_NAVIGATE)
+  navigateLogout$: Observable<user_actions.userLogoutNavigate> = this.actions$
+    .ofType<user_actions.userLogoutNavigate>(user_actions.USER_LOGOUT_NAVIGATE)
     .do(_ => {
       return this.router.navigate(['logout']);
     });
@@ -44,37 +43,37 @@ export class effects {
   * Loggin action effect : Request Feathers server to authenticate user, then dispatch success or error actions
   */
   @Effect()
-  loginUser$: Observable<Action> = this.actions$.ofType<userActions.userLogin>(userActions.USER_LOGIN)
+  loginUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
     .mergeMap((action) =>
       this.featherService.authenticate(action.payload)
         .then((response) => {
-          return new userActions.userLoginSuccess(response);
+          return new user_actions.userLoginSuccess(response);
         })
         .catch(error => {
-          return new userActions.userLoginError(error.message);
+          return new user_actions.userLoginError(error.message);
         })
     );
 
   @Effect()
-  logoutUser$: Observable<Action> = this.actions$.ofType<userActions.userLogout>(userActions.USER_LOGOUT)
+  logoutUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogout>(user_actions.USER_LOGOUT)
     .mergeMap((action) =>
       this.featherService.logout()
-        .then(() => { return new userActions.userLogoutSuccess() })
-        .catch((error) => { return new userActions.userLogoutError(error.message) })
+        .then(() => { return new user_actions.userLogoutSuccess() })
+        .catch((error) => { return new user_actions.userLogoutError(error.message) })
     );
 
   @Effect()
-  checkAuth$: Observable<Action> = this.actions$.ofType<userActions.userCheckAuth>(userActions.USER_CHECK_AUTH)
+  checkAuth$: Observable<Action> = this.actions$.ofType<user_actions.userCheckAuth>(user_actions.USER_CHECK_AUTH)
     .mergeMap((action) =>
       // Query if we are authenticated  
       this.featherService.isAuth()
         .then((response) => {
           // If JWT is valid, authenticate user otherwise ensure logout user
-          return response == true ? new userActions.userLogin() : new userActions.userLogout();
+          return response == true ? new user_actions.userLogin() : new user_actions.userLogout();
         })
         // Error while check auth
         .catch((error) => {
-          return new userActions.userLogout();
+          return new user_actions.userLogout();
         })
     )
 }

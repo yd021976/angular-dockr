@@ -45,6 +45,7 @@ export class userLogoutError implements Action {
   readonly type = USER_LOGOUT_ERROR;
   constructor(public payload: string) { }
 }
+// TODO: Should we keep this action or just use loginService methods ?
 export class userCheckAuth implements Action {
   readonly type = USER_CHECK_AUTH;
   constructor() { }

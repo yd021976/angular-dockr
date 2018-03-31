@@ -6,18 +6,17 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as user_services from '../services/login.service';
 import * as user_actions from '../store/actions/user.actions';
-
+import {} from '../';
 
 @Injectable()
 export class loginGuard implements CanActivate, CanActivateChild {
   private authObservable$: Observable<boolean>;
 
-  constructor(private _router: Router, @Inject(user_services.LoginServiceToken) private loginService: user_services.service, private store: Store<any>) {
+  constructor(private _router: Router, @Inject(user_services.LoginServiceToken) private loginService: user_services.userService, private store: Store<any>) {
   }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('loginGuard#canActivate called');
-
     return this.checkAuth(_route);
   }
   canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

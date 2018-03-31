@@ -20,11 +20,13 @@ import { templatesRouterModule } from './routes/templates.routes.module';
     EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],
   declarations: [template_module.components.TemplateFormComponent, template_module.components.TemplatesComponent, template_module.components.TemplateZonesComponent],
-  providers: [{
+  providers: [
+    {
     provide: template_module.services.templateServiceToken,
     useFactory: template_module.services.templateServiceFactory,
     deps: [Injector]
-  }],
+    }
+  ],
   exports: [template_module.components.TemplatesComponent]
 })
 export class TemplatesModule { }

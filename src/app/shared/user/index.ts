@@ -7,5 +7,5 @@ export const user_module = {
   components: user_components,
   guards: user_guards,
   services: user_services,
-  store: user_store.default
+  store: user_store.store
 }
