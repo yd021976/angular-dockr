@@ -6,10 +6,10 @@ import { Service, Pagination, Application, Params, NullableId } from 'feathers/c
 import * as templates_model from '../store/models/template.model';
 
 export interface templateServiceBase {
-  loadAll(): Observable<templates_model.ITemplate[] | Pagination<any>>
-  create(payload: templates_model.ITemplate): Observable<templates_model.ITemplate>
-  update(payload: templates_model.ITemplate): Observable<templates_model.ITemplate[]>
-  delete(payload: templates_model.ITemplate): Observable<templates_model.ITemplate[]>
+  loadAll(): Observable<any[] | Pagination<any>>
+  create(payload: templates_model.ITemplate): Observable<any>
+  update(payload: templates_model.ITemplate): Observable<any>
+  delete(payload: templates_model.ITemplate): Observable<any>
 }
 
 class mockTemplateService implements templateServiceBase {
@@ -20,10 +20,10 @@ class mockTemplateService implements templateServiceBase {
     return Observable.of(<templates_model.ITemplate>payload);
   }
   update(payload: templates_model.ITemplate) {
-    return Observable.of(new Array<templates_model.ITemplate>(payload));
+    return Observable.of(<templates_model.ITemplate>payload);
   }
   delete(payload: templates_model.ITemplate) {
-    return Observable.of(new Array<templates_model.ITemplate>(payload));
+    return Observable.of(<templates_model.ITemplate>payload);
   }
 }
 

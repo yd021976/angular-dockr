@@ -21,11 +21,12 @@ export class templatesEffects {
   @Effect()
   loadTemplates$ = this.actions$
     .ofType<template_actions.loadTemplates>(template_actions.TEMPLATE_LOAD)
-    .mergeMap(action => this.templateService.loadAll()
-      .map(result => {
+    .switchMap(action => this.templateService.loadAll()
+      .mergeMap(result => {
+        var data = result['data'];
         return [
-          new AddData<template_model.ITemplate>({ data: <template_model.ITemplate[]>result, schema: template_model.schemas }),
-          new template_actions.loadTemplatesSuccess(<template_model.ITemplate[]>result)
+          new AddData<template_model.ITemplate>({ data: <template_model.ITemplate[]>data, schema: template_model.schemas }),
+          new template_actions.loadTemplatesSuccess(<template_model.ITemplate[]>data)
         ]
       })
       .catch(error => {

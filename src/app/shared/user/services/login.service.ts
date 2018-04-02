@@ -31,20 +31,18 @@ class feathersMock implements userService {
 
 class loginService implements userService {
   user: any;
-  constructor(private feathers: feathersClient.Application) { }
-  
+  constructor(private feathers: userService) { }
+
   authenticate(payload?) {
     return this.feathers.authenticate(payload);
   }
-  
+
   logout() {
     return this.feathers.logout();
   }
 
   isAuth() {
-    return new Promise<any>((resolve, reject) => {
-      resolve(true);
-    })
+    return this.feathers.isAuth();
   }
 }
 

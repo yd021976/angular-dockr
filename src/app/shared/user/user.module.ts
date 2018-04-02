@@ -1,12 +1,12 @@
 import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatButtonModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule } from '@angular/material';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { userRouterModule } from './routes/user.routes.module';
-import {user_module } from './';
+import { user_module } from './';
 /**
  * Depedencies :
  * 
@@ -18,12 +18,13 @@ import {user_module } from './';
   imports: [
     CommonModule,
     FormsModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule,
     userRouterModule,
     StoreModule.forFeature('user', user_module.store.reducers.reducer),
     EffectsModule.forFeature([user_module.store.effects.effects]),
   ],
-  declarations: [user_module.components.LoginComponent, user_module.components.LogoutComponent],
+  declarations: [user_module.components.LoginComponent, user_module.components.LogoutComponent, user_module.components.AuthDialogComponent],
+  entryComponents: [user_module.components.AuthDialogComponent],
   exports: [user_module.components.LoginComponent, user_module.components.LogoutComponent],
   providers:
     [

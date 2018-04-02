@@ -8,9 +8,9 @@ import { user_module } from '../../user';
 /** define module routes */
 const routes: Route[] = [
   {
-    path: '', canActivate: [user_module.guards.loginGuard], children: [
+    path: '', canActivate: [user_module.guards.loginGuard], data: { isMenu: true, title: 'Manage Templates', icon: 'settings', isAuthRequired: true }, children: [
       {
-        path: 'templates_home', component: TemplatesComponent, data: { isMenu: true, title: 'Templates', link: 'templates_home' }
+        path: 'templates_home', component: TemplatesComponent, data: { isMenu: true, title: 'Templates', link: 'templates_home', isAuthRequired: true }
       }
     ]
   }
