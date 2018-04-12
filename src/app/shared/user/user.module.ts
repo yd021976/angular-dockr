@@ -6,7 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { userRouterModule } from './routes/user.routes.module';
-import { user_module } from './';
+import * as user_components from './components';
+import { user_module } from './index';
 /**
  * Depedencies :
  * 
@@ -24,7 +25,7 @@ import { user_module } from './';
     EffectsModule.forFeature([user_module.store.effects.effects]),
   ],
   declarations: [user_module.components.LoginComponent, user_module.components.LogoutComponent, user_module.components.AuthDialogComponent],
-  entryComponents: [user_module.components.AuthDialogComponent],
+  entryComponents: [user_components.AuthDialogComponent],
   exports: [user_module.components.LoginComponent, user_module.components.LogoutComponent],
   providers:
     [

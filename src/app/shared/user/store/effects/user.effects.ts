@@ -13,7 +13,7 @@ import * as user_actions from '../actions/user.actions';
 @Injectable()
 export class effects {
   constructor(
-    @Inject(user_service.feathersServiceToken) private featherService: user_service.userService,
+    @Inject(user_service.LoginServiceToken) private featherService: user_service.userService,
     private router: Router,
     private actions$: Actions) { }
 
@@ -45,9 +45,9 @@ export class effects {
   @Effect()
   loginUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
     .mergeMap((action) =>
-      this.featherService.authenticate(action.payload)
+      this.featherService.authenticate(action.payload.credentials)
         .then((response) => {
-          return new user_actions.userLoginSuccess(response);
+          return this.router.navigate(action.payload.redirectTo), new user_actions.userLoginSuccess({ credentials: response })
         })
         .catch(error => {
           return new user_actions.userLoginError(error.message);

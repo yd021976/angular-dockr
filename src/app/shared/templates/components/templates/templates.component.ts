@@ -24,7 +24,9 @@ export class TemplatesComponent implements OnInit {
 
   ngOnInit() {
     // Ensure we load available templates
+    console.log("[templatesComponent] ngOnit : dispatch load templates -- " + new Date(Date.now()));
     this.store.dispatch(new template_actions.loadTemplates());
+
   }
   loadTemplates() {
     this.store.dispatch(new template_actions.loadTemplates());

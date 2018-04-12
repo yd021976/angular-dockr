@@ -17,7 +17,7 @@ export const USER_CHECK_AUTH = '[USER] CHECK AUTH';
 /** Getter actions */
 export class userLogin implements Action {
   readonly type = USER_LOGIN;
-  constructor(public payload?: user_model.loginCredentials) { }
+  constructor(public payload?: {credentials:user_model.loginCredentials, redirectTo:Array<any>}) { }
 }
 export class userLoginNavigate implements Action {
   readonly type = USER_LOGIN_NAVIGATE;
@@ -25,7 +25,7 @@ export class userLoginNavigate implements Action {
 }
 export class userLoginSuccess implements Action {
   readonly type = USER_LOGIN_SUCCESS;
-  constructor(public payload: user_model.loginSuccess) { }
+  constructor(public payload: {credentials:user_model.loginSuccess}) { }
 }
 export class userLoginError implements Action {
   readonly type = USER_LOGIN_ERROR;

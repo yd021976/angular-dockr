@@ -9,6 +9,8 @@ import { DashboardComponent } from '../views/dashboard/dashboard.component';
 // App Routing types
 import { appRoute } from './routing.types';
 
+// User guard : Necessary because it update the User store slice
+import * as user_guards from '../shared/user/guards';
 
 // Define the application routes
 const routes: appRoute[] =
@@ -32,6 +34,7 @@ const routes: appRoute[] =
         }
       ]
     }
+
   ]
 @NgModule({
   imports: [

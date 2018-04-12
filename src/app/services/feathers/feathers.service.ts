@@ -13,6 +13,8 @@ export class FeathersService implements user_services.userService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
   public user: any = null;
+  static count: number = 0;
+  currentCounter;
 
   /**
    * 
@@ -22,6 +24,8 @@ export class FeathersService implements user_services.userService {
     if (this._config == null) this._config = config;
     this._initSocketClient();
     this._configureFeathers();
+    FeathersService.count++;
+    this.currentCounter = FeathersService.count;
   }
 
   /**
@@ -90,7 +94,7 @@ export class FeathersService implements user_services.userService {
       this._feathers.passport.getJWT()
         .then((token) => {
           jwt = token;
-          if (jwt !== null) {
+          if (jwt !== null && jwt) {
             this._feathers.passport.verifyJWT(jwt)
               .then((data) => {
                 jwt_data = data;

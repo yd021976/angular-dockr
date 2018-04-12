@@ -7,8 +7,9 @@
       <app-side-nav [routerConfig]="router.config"></app-side-nav>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div class="sidenav-content">
-        <router-outlet></router-outlet>
+      <app-backdrop [navigating]="backdrop"></app-backdrop>
+      <div id="contents" class="sidenav-content" [@fadeAnimation]="getRouterOutletState(o)">
+        <router-outlet #o="outlet"></router-outlet>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

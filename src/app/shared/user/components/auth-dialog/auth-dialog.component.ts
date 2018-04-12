@@ -10,7 +10,7 @@ export class AuthDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AuthDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public requestedPageTitle:string
+    @Inject(MAT_DIALOG_DATA) public data:{title:string,message:string}
   ) { }
 
   ngOnInit() {

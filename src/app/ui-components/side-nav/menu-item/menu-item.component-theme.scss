@@ -10,7 +10,6 @@
     border-left-width: 3px;
 }
 
-
 /*
                         COLOR THEMING
     Define a mixin that accepts a theme and outputs the color styles for the component.
@@ -18,6 +17,9 @@
 
 @mixin menu-item-component-colors($theme) {
     app-menu-item {
+        a:focus {
+            outline: none;
+        }
         .mat-expansion-panel {
             background-color: background-color($theme);
             &.mat-expanded {
@@ -35,7 +37,7 @@
                 color: text-color($theme);
             }
             &.mat-expanded,
-            {
+                {
                 .mat-expansion-panel-header-title {
                     color: text-color-expanded($theme);
                 }
@@ -43,8 +45,8 @@
         }
         a.child-menu-item-link {
             color: text-color($theme);
-            &.linkActive{
-                color:text-color-linkactive($theme);
+            &.linkActive {
+                color: text-color-linkactive($theme);
             }
         }
     }
@@ -100,7 +102,6 @@
         }
     }
 }
-
 
 /*
             STRUCTURAL STYLES

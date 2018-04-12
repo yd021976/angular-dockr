@@ -21,24 +21,40 @@ export class loginGuard implements CanActivate, CanActivateChild {
   ) { }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('loginGuard#canActivate called');
+    console.log('loginGuard#canActivate called -- ' + new Date(Date.now()));
 
     // Only perform auth checking if route require a authenticated user
     if (_route.data['isAuthRequired']) {
-      return this._checkAuth(_route).then(isAuth => {
-        if (isAuth == false) {
-          // does user want to login to access this page ?
-          this.dialog.open(user_components.AuthDialogComponent, { data: _route.data['title'] }).afterClosed().subscribe((selection) => {
-            if (selection == true) {
-              return this._router.navigate(['login']);
-            } else {
-              return false;
-            }
-          })
-        } else {
-          return true;
-        }
-      })
+      return this._checkAuth(_route)
+        .then(isAuth => {
+          if (isAuth == false) {
+            // does user want to login to access this page ?
+            this.dialog.open(user_components.AuthDialogComponent, {
+              data:
+                {
+                  title: "Authenticated user required",
+                  message: "Do you want to login to access page '" + _route.data['title'] + "'"
+                }
+            }).afterClosed().subscribe((selection) => {
+              if (selection == true) {
+                return this._router.navigate(['login'], {
+                  queryParams:
+                    {
+                      redirectTo: _route.url
+                    }
+                });
+              } else {
+                return false;
+              }
+            })
+          } else {
+            return true;
+          }
+        })
+        .catch(error => {
+          this.store.dispatch(new user_actions.userLoginError('[AuthGuard] Error in <canActivate>:' + error.message));
+          return false;
+        })
     } else {
       return true;
     }
@@ -51,56 +67,38 @@ export class loginGuard implements CanActivate, CanActivateChild {
 
   private _checkAuth(_route: ActivatedRouteSnapshot) {
     // LoginService has no logged in user sets
-    if (this.loginService.user == null) {
-      return new Promise<boolean>((resolve, reject) => {
-        this.loginService.isAuth()
-          .then((isAuth) => {
-            // We already have a token stored in local storage => Try to authenticate again
-            if (isAuth) {
-              this.loginService.authenticate()
-                .then(response => {
-                  this.store.dispatch(new user_actions.userLoginSuccess(response));
-                  resolve(true);
-                })
-                .catch(error => {
-                  this.store.dispatch(new user_actions.userLoginError(error.message));
-                  resolve(false);
-                });
+    return new Promise<boolean>((resolve, reject) => {
+      setTimeout(() => {
+        this.authUser(resolve, reject);
+      }, 1000);
+    });
+  }
 
-              // We don't have a valid token in local storage
-            } else {
-              this.store.dispatch(new user_actions.userLogout());
-              resolve(false);
-            }
-          })
-          // Error occured in the process
-          .catch(error => {
-            this.store.dispatch(new user_actions.userLoginError(error.message));
-            resolve(false);
-          })
-      });
-
-      // LoginService has already a logged in user sets
-    } else {
-      return new Promise<boolean>((resolve, reject) => {
-        this.loginService.isAuth()
-          .then(isAuth => {
-            if (isAuth) {
-              // Ensure store is up to date with logged in user
-              this.store.dispatch(new user_actions.userLoginSuccess(this.loginService.user));
+  private authUser(resolve, reject) {
+    this.loginService.isAuth()
+      .then((isAuth) => {
+        // We already have a token stored in local storage => Try to authenticate again
+        if (isAuth) {
+          this.loginService.authenticate()
+            .then(response => {
+              this.store.dispatch(new user_actions.userLoginSuccess(response));
               resolve(true);
-            } else {
-              // Token has expired
-              this.store.dispatch(new user_actions.userLogout());
+            })
+            .catch(error => {
+              this.store.dispatch(new user_actions.userLoginError(error.message));
               resolve(false);
-            }
-          })
-          // Error while check isAuth()
-          .catch(error => {
-            this.store.dispatch(new user_actions.userLoginError(error.message));
-            resolve(false);
-          });
-      });
-    }
+            });
+
+          // We don't have a valid token in local storage
+        } else {
+          this.store.dispatch(new user_actions.userLogout());
+          resolve(false);
+        }
+      })
+      // Error occured in the process
+      .catch(error => {
+        this.store.dispatch(new user_actions.userLoginError(error.message));
+        resolve(false);
+      })
   }
 }

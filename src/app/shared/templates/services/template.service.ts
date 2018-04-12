@@ -30,6 +30,7 @@ class mockTemplateService implements templateServiceBase {
 
 export class templateService implements templateServiceBase {
   private service: Service<any>;
+
   constructor(private feathers: Application, templateServiceName: string) {
     this.service = feathers.service(templateServiceName);
   }
@@ -49,7 +50,7 @@ export class templateService implements templateServiceBase {
   }
 }
 
-export const feathersToken = new InjectionToken<any>('FeathersService');
+export const feathersToken = new InjectionToken<any>('FeatherServiceForTemplate');
 export const templateServiceNameToken = new InjectionToken<string>('TemplateServiceName');
 export const templateServiceToken = new InjectionToken<templateServiceBase>('TemplateService');
 

@@ -1,6 +1,5 @@
 <div class="container">
   <ng-container *ngIf="isAuthenticated$ | async as isAuthenticated">
-
     <form>
       <div>
         <h2>Please confirm you want to log out.</h2>
@@ -8,13 +7,12 @@
       <button mat-button color="accent" (click)="onLogout()">Yes</button>
     </form>
   </ng-container>
-
-
-  <div id="loggedOut">
-    <div>
-      <h3>
-        You are logged out
-      </h3>
-    </div>
-  </div>
 </div>
+
+<ng-container #notlogged *ngIf="!isAuthenticated">
+  <div class="container">
+    <h3>
+      You are logged out
+    </h3>
+  </div>
+</ng-container>

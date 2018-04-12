@@ -11,7 +11,7 @@ export function reducer(state: user_model.IUser = defaultUserState, action: Acti
   switch (action.type) {
     case user_actions.USER_LOGIN: {
       return {
-        ...state, isLogging: true
+        ...state, isLogging: true, authenticated: false
       }
     }
     case user_actions.USER_LOGIN_SUCCESS: {
