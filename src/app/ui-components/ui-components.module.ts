@@ -7,6 +7,7 @@ import { MatToolbarModule, MatButtonModule, MatMenuModule, MatIconModule, MatSid
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { MenuItemComponent } from './side-nav/menu-item/menu-item.component';
 import { BackdropComponent } from './backdrop/backdrop.component';
+import { OutletComponent } from './outlet/outlet.component';
 
 @NgModule({
   imports: [
@@ -25,14 +26,15 @@ import { BackdropComponent } from './backdrop/backdrop.component';
     NavBarComponent,
     SideNavComponent,
     MenuItemComponent,
-    BackdropComponent
+    BackdropComponent,
+    OutletComponent
   ],
-  entryComponents:[BackdropComponent],
+  entryComponents:[],
   exports: [
     NavBarComponent,
     SideNavComponent,
-    BackdropComponent
-    
+    BackdropComponent,
+    OutletComponent
   ]
 })
 export class UiComponentsModule { }

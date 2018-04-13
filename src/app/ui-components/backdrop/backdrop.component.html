@@ -1,3 +1,6 @@
-<div class="backdrop" @backdropFade *ngIf="navigating" style="display: flex; justify-content: center; align-items: center;">
-  <mat-spinner @fadeSpinner></mat-spinner>
+<div *ngIf="show" @onNavigating>
+  <div class="backdrop" @backdropFade></div>
+  <div class="spinner">
+    <mat-spinner @fadeSpinner></mat-spinner>
+  </div>
 </div>
