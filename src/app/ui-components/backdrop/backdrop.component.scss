@@ -9,8 +9,10 @@
     position: absolute;
     z-index: 10;
     color: red;
-    background-color: #000;
-    opacity: 0.2;
+    // background-color: #000;
+    opacity: 0.7;
+    background-image: url('./Light-Grey-Background-3.jpg');
+    filter: blur(3px);
 }
 
 .spinner {

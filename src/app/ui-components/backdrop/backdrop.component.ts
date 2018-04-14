@@ -76,6 +76,8 @@ export class BackdropComponent implements OnInit, OnDestroy {
 
   private _onRouterEvent(event) {
     if (event instanceof NavigationStart) this.show = true;
-    if (event instanceof (NavigationEnd || NavigationCancel || NavigationError)) this.show = false;
+    if (event instanceof (NavigationEnd || NavigationCancel || NavigationError)) {
+      this.show = false;
+    }
   }
 }
