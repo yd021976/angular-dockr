@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { UiComponentsModule} from '../../ui-components/ui-components.module';
 
 import { template_module } from './';
 import { templatesRouterModule } from './routes/templates.routes.module';
@@ -16,6 +17,7 @@ import { templatesRouterModule } from './routes/templates.routes.module';
     MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule,
     FlexLayoutModule,
     templatesRouterModule,
+    UiComponentsModule,
     StoreModule.forFeature('templates', template_module.store.reducers.reducer),
     EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],

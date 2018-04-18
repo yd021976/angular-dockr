@@ -70,7 +70,7 @@ export class loginGuard implements CanActivate, CanActivateChild {
     return new Promise<boolean>((resolve, reject) => {
       setTimeout(() => {
         this.authUser(resolve, reject);
-      }, 5000);
+      }, 500);
     });
   }
 

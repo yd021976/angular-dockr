@@ -60,6 +60,11 @@ export class BackdropComponent implements OnInit, OnDestroy {
   @Input() show: boolean = false;
   // Link this component "navigating" property with router state (show on start navigating and hide when navigating is done)
   @Input() linkRouterState: boolean = false;
+  @Input() showSpinner: boolean = true;
+
+  // Styles
+  @Input() opacity: number = 0.7;
+  @Input() blur: string = "3px";
 
   private routerSubscribe: Subscription = null;
   constructor(private router: Router) {
@@ -78,6 +83,13 @@ export class BackdropComponent implements OnInit, OnDestroy {
     if (event instanceof NavigationStart) this.show = true;
     if (event instanceof (NavigationEnd || NavigationCancel || NavigationError)) {
       this.show = false;
+    }
+  }
+
+  getStyles() {
+    return {
+      'opacity': this.opacity,
+      'filter' : "blur("+this.blur+")"
     }
   }
 }

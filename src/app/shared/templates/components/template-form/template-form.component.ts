@@ -10,9 +10,8 @@ import * as template_model from '../../store/models/template.model';
 export class TemplateFormComponent implements OnInit {
   @Input() public template: template_model.ITemplate = null;
 
+
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }

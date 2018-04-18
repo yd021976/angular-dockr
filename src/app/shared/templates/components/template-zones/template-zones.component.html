@@ -1,7 +1,21 @@
-<div fxLayout="row">
-  <div fxFlexOffset="48px">
-    <p>
-      template-zones works!
-    </p>
+<div style="position: absolute; height:600px;width:350px" fxLayout="column">
+  <H3 fxFlex="2">Zones</H3>
+  <div fxLayout="row" fxFlexFill>
+    <div class="canvas" fxFlexFill>
+      <canvas #htmlCanvas width="300" height="100%"></canvas>
+    </div>
+    <div fxLayout="column">
+      <input type="file" hidden #imageFile (change)="onImageFileChange($event)">
+      <button mat-button color="accent" (click)="imageFile.click()">
+          Change template image
+      </button>
+
+      <button mat-button color="accent">
+        Add zone
+      </button>
+      <button mat-button color="accent">
+        Remove zone
+      </button>
+    </div>
   </div>
 </div>

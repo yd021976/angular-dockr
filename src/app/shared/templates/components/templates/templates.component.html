@@ -25,7 +25,14 @@
       </div>
     </div>
   </div>
-  <app-template-form [template]="selectedTemplate"></app-template-form>
+  <div>
+    <app-backdrop [show]="!selectedTemplate" [showSpinner]="false" opacity="0.7" blur="1px"></app-backdrop>
+      <div fxLayout="row" fxLayoutAlign="start top" fxLayoutGap="96px" class="editors">
+      <app-template-form [template]="selectedTemplate"></app-template-form>
+      <app-template-zones [zones]="selectedTemplate?.zones"></app-template-zones>
+    </div>
+  </div>
+
 </ng-container>
 
 
