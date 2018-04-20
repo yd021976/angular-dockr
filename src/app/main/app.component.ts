@@ -22,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostBinding('class') componentCssClass; // Binding for theme change
 
   constructor(public router: Router, public store: Store<any>) {
+    let a = 0;
   }
 
   ngOnInit() {
