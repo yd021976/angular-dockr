@@ -13,7 +13,7 @@
       "sourceMaps": true,
       "disableNetworkCache":true,
       "sourceMapPathOverrides": {
-        "webpack:///./*": "${workspaceRoot}/*"
+        "webpack:///./*":"${workspaceRoot}/*"
       }
     }
   ]
