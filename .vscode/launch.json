@@ -9,7 +9,11 @@
       "request": "launch",
       "name": "Lancer Chrome sur localhost",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${workspaceRoot}/*"
+      }
     }
   ]
 }
