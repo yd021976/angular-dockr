@@ -21,10 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAuthenticated$: rxjs.Observable<boolean>;
   @HostBinding('class') componentCssClass; // Binding for theme change
 
-  constructor(public router: Router, public store: Store<any>) {
-    let a = 1;
-    let b = 2;
-  }
+  constructor(public router: Router, public store: Store<any>) { }
 
   ngOnInit() {
     this.isAuthenticated$ = this.store.select(user_module.store.selectors.isAuthenticated);
