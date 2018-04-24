@@ -24,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public router: Router, public store: Store<any>) { }
 
   ngOnInit() {
+    
     this.isAuthenticated$ = this.store.select(user_module.store.selectors.isAuthenticated);
   }
 

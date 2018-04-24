@@ -37,7 +37,9 @@ export class TemplateZonesComponent implements OnInit {
    */
   onImageFileChange(event) {
     var file = this.imageFile.files[0];
-    if (file) { }
+    if (file) { 
+      this._fReader.readAsDataURL(file);
+    }
   }
 
   /**

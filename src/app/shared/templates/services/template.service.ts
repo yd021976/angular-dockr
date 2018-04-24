@@ -27,7 +27,6 @@ class mockTemplateService implements templateServiceBase {
   }
 }
 
-
 export class templateService implements templateServiceBase {
   private service: Service<any>;
 
@@ -50,23 +49,24 @@ export class templateService implements templateServiceBase {
   }
 }
 
-export const feathersToken = new InjectionToken<any>('FeatherServiceForTemplate');
+export const feathersServiceToken = new InjectionToken<any>('FeatherServiceForTemplate');
 export const templateServiceNameToken = new InjectionToken<string>('TemplateServiceName');
 export const templateServiceToken = new InjectionToken<templateServiceBase>('TemplateService');
 
 export const templateServiceFactory = (injector: Injector) => {
   var feathers: any;
-  var service: string;
+  var templateServiceName: string;
+  var uploadServiceName: string;
   var template_service: templateServiceBase;
 
   try {
-    feathers = injector.get(feathersToken, null);
-    service = injector.get(templateServiceNameToken, 'templates');
+    feathers = injector.get(feathersServiceToken, null);
+    templateServiceName = injector.get(templateServiceNameToken, 'templates');
   }
   catch{
   }
   if (feathers) {
-    template_service = new templateService(feathers, service);
+    template_service = new templateService(feathers, templateServiceName);
   } else {
     template_service = new mockTemplateService();
   }
