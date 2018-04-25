@@ -1,3 +1,4 @@
 export class toto {
-  test: string = '';
+  public test: string = '';
+  public test2: boolean;
 }
