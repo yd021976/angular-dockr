@@ -1,30 +1,12 @@
 import { Action } from '@ngrx/store';
+import * as files_model from '../models';
 
 
 export const FILES_LOAD = "[FILES] LOAD";
 export const FILES_LOAD_SUCCESS = "[FILES] LOAD SUCCESS";
-export const FILES_LOAD_ERROR = "[TEMPLATES] FILES LOAD ERROR";
+export const FILES_LOAD_ERROR = "[FILES] FILES LOAD ERROR";
 
-
-// export const TEMPLATE_LOAD = "[TEMPLATES] LOAD";
-// export const TEMPLATE_LOAD_SUCCESS = "[TEMPLATES] LOAD SUCCESS";
-// export const TEMPLATE_LOAD_ERROR = "[TEMPLATES] LOAD ERROR";
-
-// export const TEMPLATE_ADD = "[TEMPLATES] ADD";
-// export const TEMPLATE_ADD_SUCCESS = "[TEMPLATES] ADD SUCCESS";
-// export const TEMPLATE_ADD_ERROR = "[TEMPLATES] ADD ERROR";
-
-// export const TEMPLATE_REMOVE = "[TEMPLATES] REMOVE";
-// export const TEMPLATE_REMOVE_SUCCESS = "[TEMPLATES] REMOVE SUCCESS";
-// export const TEMPLATE_REMOVE_ERROR = "[TEMPLATES] REMOVE ERROR";
-
-// export const TEMPLATE_ADD_ZONE = "[TEMPLATES] ADD ZONE";
-// export const TEMPLATE_ADD_ZONE_SUCCESS = "[TEMPLATES] ADD ZONE SUCCESS";
-// export const TEMPLATE_ADD_ZONE_ERROR = "[TEMPLATES] ADD ZONE ERROR";
-
-// export const TEMPLATE_REMOVE_ZONE = "[TEMPLATES] REMOVE ZONE";
-// export const TEMPLATE_REMOVE_ZONE_SUCCESS = "[TEMPLATES] REMOVE ZONE SUCCESS";
-// export const TEMPLATE_REMOVE_ZONE_ERROR = "[TEMPLATES] REMOVE ZONE ERROR";
+export const FILE_SELECT = "[FILE] SELECT";
 
 export class loadFiles implements Action {
   readonly type = FILES_LOAD;
@@ -39,70 +21,15 @@ export class loadFilesError implements Action {
   constructor(public payload: string) { }
 }
 
-// export class selectTemplate implements Action {
-//   readonly type = TEMPLATE_SELECT;
-//   constructor(public payload: template_model.ITemplate) { }
-// }
+export class selectFile implements Action {
+  readonly type = FILE_SELECT;
+  constructor(public payload: files_model.IFile) { }
+}
 
-// export class selectZone implements Action {
-//   readonly type = TEMPLATE_SELECT_ZONE;
-//   constructor(public payload: zone_model.IZone) { }
-// }
-
-// export class addTemplate implements Action {
-//   readonly type = TEMPLATE_ADD;
-//   constructor(public payload: template_model.ITemplate) { }
-// }
-// export class addTemplateSuccess {
-//   readonly type = TEMPLATE_ADD_SUCCESS;
-//   constructor(public payload: template_model.ITemplate) { }
-// }
-// export class addTemplateError implements Action {
-//   readonly type = TEMPLATE_ADD_ERROR;
-//   constructor(public payload: string) { }
-// }
-
-// export class removeTemplate implements Action {
-//   readonly type = TEMPLATE_REMOVE;
-//   constructor(public payload: template_model.ITemplate) { }
-// }
-// export class removeTemplateSuccess implements Action {
-//   readonly type = TEMPLATE_REMOVE_SUCCESS;
-//   constructor(public payload: template_model.ITemplate) { }
-// }
-// export class removeTemplateError implements Action {
-//   readonly type = TEMPLATE_REMOVE_ERROR;
-//   constructor(public payload: string) { }
-// }
-
-// export class addZone implements Action {
-//   readonly type = TEMPLATE_ADD_ZONE;
-//   constructor(public payload: { template: template_model.ITemplate, zone: zone_model.IZone }) { }
-// }
-// export class addZoneSuccess implements Action {
-//   readonly type = TEMPLATE_ADD_ZONE_SUCCESS;
-//   constructor(public payload: { template: template_model.ITemplate, zone: zone_model.IZone }) { }
-// }
-// export class addZoneError implements Action {
-//   readonly type = TEMPLATE_ADD_ZONE_ERROR;
-//   constructor(public payload: string) { }
-// }
-
-// export class removeZone implements Action {
-//   readonly type = TEMPLATE_REMOVE_ZONE;
-//   constructor(public payload: { template: template_model.ITemplate, zone: zone_model.IZone }) { }
-// }
-// export class removeZoneSuccess implements Action {
-//   readonly type = TEMPLATE_REMOVE_ZONE_SUCCESS;
-//   constructor(public payload: { template: template_model.ITemplate, zone: zone_model.IZone }) { }
-// }
-// export class removeZoneError implements Action {
-//   readonly type = TEMPLATE_REMOVE_ZONE_ERROR;
-//   constructor(public payload: string) { }
-// }
 
 export type All =
   loadFiles |
   loadFilesSuccess |
-  loadFilesError
+  loadFilesError |
+  selectFile
   ;
