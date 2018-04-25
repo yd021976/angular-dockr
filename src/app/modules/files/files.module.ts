@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import {  filesRouterModule} from './routes/files.routes.module';
 import { user_module } from './index';
+import { FileChooserComponent } from './components/file-chooser/file-chooser.component';
 /**
  * Depedencies :
  * 
@@ -23,7 +24,7 @@ import { user_module } from './index';
     StoreModule.forFeature('files', user_module.store.reducers.reducer),
     EffectsModule.forFeature([]),
   ],
-  declarations: [],
+  declarations: [FileChooserComponent],
   entryComponents: [],
   exports: [],
   providers:

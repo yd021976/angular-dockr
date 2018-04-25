@@ -4,7 +4,7 @@ import { RouterModule, Routes, Route } from '@angular/router';
 
 
 /** define module routes */
-const routes: Route[] = []
+const routes: Route[] = [{ path: '' }]
 
 @NgModule({
   imports: [
