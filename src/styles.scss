@@ -22,9 +22,9 @@ $app-default-theme: mat-light-theme($app-default-primary, $app-default-accent);
 // Include the default theme styles.
 @include angular-material-theme($app-default-theme);
 // Themeable components
-@import 'app/ui-components/nav-bar/nav-bar.component-theme.scss';
+@import 'app/shared/ui-components/nav-bar/nav-bar.component-theme.scss';
 @include navbar-component($app-default-theme);
-@import 'app/ui-components/side-nav/side-nav.component-theme.scss';
+@import 'app/shared/ui-components/side-nav/side-nav.component-theme.scss';
 @include sidenav-component($app-default-theme);
 @import 'app/main/app.component-theme.scss';
 @include app-component($app-default-theme);

@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { UiComponentsModule} from '../../ui-components/ui-components.module';
+import { UiComponentsModule} from '../../shared/ui-components/ui-components.module';
 
 import { template_module } from './';
 import { templatesRouterModule } from './routes/templates.routes.module';

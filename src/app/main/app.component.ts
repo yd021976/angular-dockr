@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import * as rxjs from 'rxjs';
 
 
-import { themeItem } from '../ui-components/nav-bar/nav-bar.component';
+import { themeItem } from '../shared/ui-components/nav-bar/nav-bar.component';
 import { Store } from '@ngrx/store';
-import { user_module } from '../shared/user';
-import { BackdropComponent } from '../ui-components/backdrop/backdrop.component';
-import { OutletComponent } from '../ui-components/outlet/outlet.component';
+import { user_module } from '../modules/user';
+import { BackdropComponent } from '../shared/ui-components/backdrop/backdrop.component';
+import { OutletComponent } from '../shared/ui-components/outlet/outlet.component';
 
 @Component({
   selector: 'app-root',

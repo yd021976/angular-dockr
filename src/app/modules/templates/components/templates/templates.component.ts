@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { BackdropComponent } from '../../../../ui-components/backdrop/backdrop.component';
+import { BackdropComponent } from '../../../../shared/ui-components/backdrop/backdrop.component';
 import templates_selectors from '../../store/selectors/template.selectors';
 import * as template_model from '../../store/models/template.model';
 import * as template_state from '../../store/state/template.state';
