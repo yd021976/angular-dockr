@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./file-chooser.component.scss']
 })
 export class FileChooserComponent implements OnInit {
-
+  public toto: string;
+  
   constructor() { }
 
   ngOnInit() {
