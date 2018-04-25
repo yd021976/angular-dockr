@@ -55,7 +55,6 @@ import { Subscription } from 'rxjs';
   host: {}
 })
 export class BackdropComponent implements OnInit, OnDestroy {
-
   // show/hide the backdrop
   @Input() show: boolean = false;
   // Link this component "navigating" property with router state (show on start navigating and hide when navigating is done)
