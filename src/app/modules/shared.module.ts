@@ -15,4 +15,5 @@ import { FilesModule } from './files/files.module';
   declarations: [],
   providers: []
 })
-export class SharedModule { }
+export class SharedModule {
+ }
