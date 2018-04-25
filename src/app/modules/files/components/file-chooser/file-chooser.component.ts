@@ -6,7 +6,7 @@ import { IFile } from '../../store/models/files.models';
   styleUrls: ['./file-chooser.component.scss']
 })
 export class FileChooserComponent implements OnInit {
-  public test: IFile;
+  public file$: IFile;
   constructor() { }
 
   ngOnInit() {
