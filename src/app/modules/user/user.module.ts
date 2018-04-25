@@ -37,4 +37,5 @@ import { user_module } from './index';
       }
     ]
 })
-export class UserModule { }
+export class UserModule { 
+}
