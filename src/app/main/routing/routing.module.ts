@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes, Route } from '@angular/router';
 
 // App components
-import { HomeViewComponent } from '../views/home-view/home-view.component';
-import { DashboardComponent } from '../views/dashboard/dashboard.component';
+import { HomeViewComponent } from '../../shared/views/home-view/home-view.component';
+import { DashboardComponent } from '../../shared/views/dashboard/dashboard.component';
 
 // App Routing types
 import { appRoute } from './routing.types';
 
 // User guard : Necessary because it update the User store slice
-import * as user_guards from '../shared/user/guards';
+import * as user_guards from '../../modules/user/guards';
 
 // Define the application routes
 const routes: appRoute[] =

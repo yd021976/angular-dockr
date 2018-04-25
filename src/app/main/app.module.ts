@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
 
 import { MatSidenavModule, MatToolbarModule, MatExpansionModule, MatListModule, MatButtonModule } from '@angular/material';
 
-import { RoutingModule } from '../routing/routing.module';
+import { RoutingModule } from './routing/routing.module';
 import { AppComponent } from './app.component';
-import { UiComponentsModule } from '../ui-components/ui-components.module';
-import { ViewsModule } from '../views/views.module';
-import { SharedModule } from '../shared/shared.module';
-import { AppServicesModule } from '../services/app-services.module';
+import { UiComponentsModule } from '../shared/ui-components/ui-components.module';
+import { ViewsModule } from '../shared/views/views.module';
+import { SharedModule } from '../modules/shared.module';
+import { AppServicesModule } from '../shared/services/app-services.module';
 
 @NgModule({
   declarations: [

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, AfterContentInit } from '@angular/core';
-import { appRoute } from '../../../routing/routing.types';
+import { appRoute } from '../../../../main/routing/routing.types';
 import { MatIconRegistry, MatExpansionPanel, MatAccordion } from '@angular/material';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Routes, Route } from '@angular/router';
 
 // App Types
-import { appRoute } from '../../routing/routing.types';
+import { appRoute } from '../../../main/routing/routing.types';
 
 
 @Component({
