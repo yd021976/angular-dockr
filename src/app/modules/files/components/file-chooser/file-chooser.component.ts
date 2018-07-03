@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { IFile } from '../../store/models/files.model';
 
 @Component({
@@ -8,7 +10,7 @@ import { IFile } from '../../store/models/files.model';
 })
 
 export class FileChooserComponent implements OnInit {
-  constructor() { }
+  constructor(private store: Store<any>) { }
 
   ngOnInit() { }
 

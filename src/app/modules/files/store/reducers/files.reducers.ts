@@ -5,14 +5,21 @@ import * as files_state from '../state/files.state';
 type Actions = files_actions.All;
 let defaultState = files_state.initialState();
 
-export const reducer = function (state: files_model.IFile = defaultState, action: Actions) {
+export const reducer = function (state: files_model.IFiles = defaultState, action: Actions) {
   switch (action.type) {
     case files_actions.FILES_GET_LIST:
-      break;
+      return state;
+
     case files_actions.FILES_GET_LIST_SUCCESS:
-      break;
+      return { ...state, files: action.payload.files, status: { isLoading: false, isError: false } }
+
     case files_actions.FILES_GET_LIST_ERROR:
-      break;
+      return {
+        ...state, files: [], status: {
+          isLoading: false, isError: true, error: action.payload
+        }
+      }
+
     default:
       return state;
   }
