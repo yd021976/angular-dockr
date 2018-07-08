@@ -24,29 +24,37 @@ export class loginGuard implements CanActivate, CanActivateChild {
     console.log('loginGuard#canActivate called -- ' + new Date(Date.now()));
 
     // Only perform auth checking if route require a authenticated user
-    if (_route.data['isAuthRequired']) {
-      return this._checkAuth(_route)
+    if (_route.data['isAuthRequired'] && _route.data['roles'] && _route.data['roles'].length != 0) {
+      return this._ensureAuthUser(_route)
         .then(isAuth => {
           if (isAuth == false) {
             // does user want to login to access this page ?
-            this.dialog.open(user_components.AuthDialogComponent, {
+            var dial = this.dialog.open(user_components.AuthDialogComponent, {
               data:
-                {
-                  title: "Authenticated user required",
-                  message: "Do you want to login to access page '" + _route.data['title'] + "'"
-                }
-            }).afterClosed().subscribe((selection) => {
-              if (selection == true) {
-                return this._router.navigate(['login'], {
-                  queryParams:
+              {
+                title: "Authenticated user required",
+                message: "Do you want to login to access page '" + _route.data['title'] + "'"
+              }
+            });
+
+            return new Promise<boolean>((resolve, reject) => {
+              dial.afterClosed().subscribe((selection) => {
+                if (selection == true) {
+                  this._router.navigate(['login'], {
+                    queryParams:
                     {
                       redirectTo: _route.url
                     }
-                });
-              } else {
-                return false;
-              }
+                  });
+                  resolve(true);
+                } else {
+                  resolve(false);
+                }
+              });
             })
+
+
+            // User is authenticated
           } else {
             return true;
           }
@@ -62,10 +70,10 @@ export class loginGuard implements CanActivate, CanActivateChild {
   }
   canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('loginGuard#canActivateChild called');
-    return this._checkAuth(_route);
+    return this._ensureAuthUser(_route);
   }
 
-  private _checkAuth(_route: ActivatedRouteSnapshot) {
+  private _ensureAuthUser(_route: ActivatedRouteSnapshot) {
     // LoginService has no logged in user sets
     return new Promise<boolean>((resolve, reject) => {
       setTimeout(() => {
@@ -74,6 +82,9 @@ export class loginGuard implements CanActivate, CanActivateChild {
     });
   }
 
+  /**
+   * Ensure we have user authenticated (anonymous or not)
+   */
   private authUser(resolve, reject) {
     this.loginService.isAuth()
       .then((isAuth) => {
@@ -89,10 +100,18 @@ export class loginGuard implements CanActivate, CanActivateChild {
               resolve(false);
             });
 
-          // We don't have a valid token in local storage
+          // We don't have a valid token in local storage : auth as anonymous
         } else {
-          this.store.dispatch(new user_actions.userLogout());
-          resolve(false);
+          // this.store.dispatch(new user_actions.userLogout());
+          this.loginService.authenticate({ strategy: 'anonymous' })
+            .then(response => {
+              this.store.dispatch(new user_actions.userLoginSuccess(response));
+              resolve(true);
+            })
+            .catch(error => {
+              this.store.dispatch(new user_actions.userLoginError(error.message));
+              resolve(false);
+            });
         }
       })
       // Error occured in the process

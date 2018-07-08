@@ -39,7 +39,10 @@ const routes: appRoute[] =
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(
+      routes,
+      // { enableTracing: true }
+    )
   ],
   declarations: [],
   exports: [

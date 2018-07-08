@@ -16,7 +16,7 @@ export function reducer(state: user_model.IUser = defaultUserState, action: Acti
     }
     case user_actions.USER_LOGIN_SUCCESS: {
       return {
-        ...state, isLogging: false, error: '', authenticated: true, login: action.payload
+        ...state, isLogging: false, error: '', authenticated: action.payload['anonymous'] ? false : true, login: action.payload
       }
     }
     case user_actions.USER_LOGIN_ERROR: {

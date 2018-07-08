@@ -40,9 +40,17 @@ export class effects {
 
 
   /** 
-  * Loggin action effect : Request Feathers server to authenticate user, then dispatch success or error actions
+  * Loggin action effect : Request Feathers server to authenticate a new user, then dispatch success or error actions
   */
   @Effect()
+  loginAsSomeoneElse: Observable<Action> = this.actions$.ofType<user_actions.userLoginSomeoneElse>(user_actions.USER_LOGIN_SOMEONE_ELSE)
+    .mergeMap(action =>
+      this.featherService.logout() // First ensure logout current user
+        .then(() => this.featherService.authenticate(action.payload.credentials)) // Then login new user
+        .then((auth) => { return new user_actions.userLoginSuccess(auth) })
+        .catch((error) => { return new user_actions.userLogout(), new user_actions.userLoginError(error.message) })
+    );
+
   loginUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
     .mergeMap((action) =>
       this.featherService.authenticate(action.payload.credentials)

@@ -80,7 +80,10 @@ export class BackdropComponent implements OnInit, OnDestroy {
 
   private _onRouterEvent(event) {
     if (event instanceof NavigationStart) this.show = true;
-    if (event instanceof (NavigationEnd || NavigationCancel || NavigationError)) {
+    // if (event instanceof (NavigationEnd || NavigationCancel || NavigationError)) {
+    //   this.show = false;
+    // }
+    if (event instanceof NavigationCancel || event instanceof NavigationEnd || event instanceof NavigationError) {
       this.show = false;
     }
   }
@@ -88,7 +91,7 @@ export class BackdropComponent implements OnInit, OnDestroy {
   getStyles() {
     return {
       'opacity': this.opacity,
-      'filter' : "blur("+this.blur+")"
+      'filter': "blur(" + this.blur + ")"
     }
   }
 }

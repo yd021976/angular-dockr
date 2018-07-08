@@ -14,8 +14,8 @@ export const schemas = new schema.Entity('users');
 /** Login credentials type */
 export type loginCredentials = {
   strategy: string,
-  email: string,
-  password: string,
+  email?: string,
+  password?: string,
   requestedUrl? : string
 }
 export type loginSuccess = {

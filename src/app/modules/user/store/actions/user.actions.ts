@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { Credentials } from 'feathers-authentication-client';
 
 export const USER_LOGIN = '[USER] LOGIN';
+export const USER_LOGIN_SOMEONE_ELSE = '[USER] LOGIN SOMEONE ELSE';
 export const USER_LOGIN_NAVIGATE = '[USER] LOGIN NAVIGATE';
 export const USER_LOGIN_SUCCESS = '[USER] LOGIN SUCCESS';
 export const USER_LOGIN_ERROR = '[USER] LOGIN ERROR';
@@ -15,9 +16,13 @@ export const USER_CHECK_AUTH = '[USER] CHECK AUTH';
 
 
 /** Getter actions */
+export class userLoginSomeoneElse implements Action {
+  readonly type = USER_LOGIN_SOMEONE_ELSE;
+  constructor(public payload: { credentials: user_model.loginCredentials, redirectTo: Array<any> }) { }
+}
 export class userLogin implements Action {
   readonly type = USER_LOGIN;
-  constructor(public payload?: {credentials:user_model.loginCredentials, redirectTo:Array<any>}) { }
+  constructor(public payload?: { credentials: user_model.loginCredentials, redirectTo: Array<any> }) { }
 }
 export class userLoginNavigate implements Action {
   readonly type = USER_LOGIN_NAVIGATE;
@@ -25,7 +30,7 @@ export class userLoginNavigate implements Action {
 }
 export class userLoginSuccess implements Action {
   readonly type = USER_LOGIN_SUCCESS;
-  constructor(public payload: {credentials:user_model.loginSuccess}) { }
+  constructor(public payload: { credentials: user_model.loginSuccess }) { }
 }
 export class userLoginError implements Action {
   readonly type = USER_LOGIN_ERROR;
