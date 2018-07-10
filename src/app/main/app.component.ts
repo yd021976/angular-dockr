@@ -19,7 +19,9 @@ import { OutletComponent } from '../shared/ui-components/outlet/outlet.component
 export class AppComponent implements OnInit, OnDestroy {
   themes: themeItem[] = [{ name: 'Default', class_name: 'default' }, { name: 'Grey/Orange', class_name: 'app-theme-2' }];
   public isAuthenticated$: rxjs.Observable<boolean>;
+  // @HostBinding('@.disabled')
   @HostBinding('class') componentCssClass; // Binding for theme change
+
 
   constructor(public router: Router, public store: Store<any>) { }
 

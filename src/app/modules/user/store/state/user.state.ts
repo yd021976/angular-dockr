@@ -5,7 +5,8 @@ export const initialState = function (): user_model.IUser {
     id: '',
     email: '',
     token: '',
+    role:'',
     authenticated: false,
-    error: '',
+    error: ''
   }
 }

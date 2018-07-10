@@ -3,67 +3,67 @@ import { Router, CanActivateChild } from '@angular/router';
 import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 import * as user_services from '../services/login.service';
 import * as user_actions from '../store/actions/user.actions';
 import * as user_components from '../components';
+import * as user_model from '../store/models/user.model';
+import * as user_selectors from '../store/selectors/user.selectors';
+import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Injectable()
 export class loginGuard implements CanActivate, CanActivateChild {
-  private authObservable$: Observable<boolean>;
+  private observableSubscribe: Subscription;
+  private userRole = "";
 
   constructor(
     private _router: Router,
     @Inject(user_services.LoginServiceToken) private loginService: user_services.userService,
     private store: Store<any>,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.observableSubscribe = this.store.select(user_selectors.default.role).subscribe((role) => { this.userRole = role });
+  }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('loginGuard#canActivate called -- ' + new Date(Date.now()));
+    const requiredRoles: Array<any> = _route.data['roles'] ? _route.data['roles'] : [];
+    const roleBool = requiredRoles[this.userRole];
 
-    // Only perform auth checking if route require a authenticated user
-    if (_route.data['isAuthRequired'] && _route.data['roles'] && _route.data['roles'].length != 0) {
+    // Restrict access to roles defined in route data
+    if (requiredRoles.length != 0) {
+      // Ensure a user is authneticated (anonymous or real user)
       return this._ensureAuthUser(_route)
         .then(isAuth => {
-          if (isAuth == false) {
+          // User role doesn't meet requirements : Cancel navigation
+          if (requiredRoles[this.userRole] === undefined) {
             // does user want to login to access this page ?
             var dial = this.dialog.open(user_components.AuthDialogComponent, {
               data:
               {
-                title: "Authenticated user required",
+                title: "You are not allowed to view this page",
                 message: "Do you want to login to access page '" + _route.data['title'] + "'"
               }
-            });
-
-            return new Promise<boolean>((resolve, reject) => {
-              dial.afterClosed().subscribe((selection) => {
+            })
+              .afterClosed().subscribe((selection) => {
                 if (selection == true) {
-                  this._router.navigate(['login'], {
-                    queryParams:
-                    {
-                      redirectTo: _route.url
-                    }
-                  });
-                  resolve(true);
-                } else {
-                  resolve(false);
+                  this._router.navigate(['login'], { queryParams: { redirectTo: _route.url } });
                 }
               });
-            })
+            return false;
 
-
-            // User is authenticated
+            // User role meet route requirements
           } else {
             return true;
           }
         })
+        // Error while authenticate user
         .catch(error => {
           this.store.dispatch(new user_actions.userLoginError('[AuthGuard] Error in <canActivate>:' + error.message));
           return false;
         })
     } else {
+      // No role restriction needed by route, user can navigate
       return true;
     }
 
@@ -102,7 +102,6 @@ export class loginGuard implements CanActivate, CanActivateChild {
 
           // We don't have a valid token in local storage : auth as anonymous
         } else {
-          // this.store.dispatch(new user_actions.userLogout());
           this.loginService.authenticate({ strategy: 'anonymous' })
             .then(response => {
               this.store.dispatch(new user_actions.userLoginSuccess(response));

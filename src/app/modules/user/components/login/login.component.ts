@@ -38,6 +38,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    this.store.dispatch(new user_actions.userLoginSomeoneElse({ credentials: this.credentials, redirectTo: this.redirectTo }));
+    this.store.dispatch(new user_actions.userLogin({ credentials: this.credentials, redirectTo: this.redirectTo }));
   }
 }

@@ -10,11 +10,12 @@
     <!-- Main contents-->
     <mat-sidenav-content>
       <!-- show backdrop and spinner when navigating-->
-      <app-backdrop [linkRouterState]="true"></app-backdrop>
+      <!-- <app-backdrop [linkRouterState]="true"></app-backdrop> -->
 
       <div id="contents" class="sidenav-content">
         <!-- custom router outlet performing animation transition between views/components -->
         <app-outlet></app-outlet>
+        <!-- <router-outlet></router-outlet> -->
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

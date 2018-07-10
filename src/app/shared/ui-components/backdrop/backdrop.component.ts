@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import 'web-animations-js'; // WARNING: Needed in safari for web animations to work
+// import 'web-animations-js'; // WARNING: Needed in safari for web animations to work
 import {
   AnimationEvent,
   trigger,

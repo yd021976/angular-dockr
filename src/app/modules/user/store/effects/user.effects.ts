@@ -43,24 +43,13 @@ export class effects {
   * Loggin action effect : Request Feathers server to authenticate a new user, then dispatch success or error actions
   */
   @Effect()
-  loginAsSomeoneElse: Observable<Action> = this.actions$.ofType<user_actions.userLoginSomeoneElse>(user_actions.USER_LOGIN_SOMEONE_ELSE)
-    .mergeMap(action =>
-      this.featherService.logout() // First ensure logout current user
-        .then(() => this.featherService.authenticate(action.payload.credentials)) // Then login new user
-        .then((auth) => { return new user_actions.userLoginSuccess(auth) })
-        .catch((error) => { return new user_actions.userLogout(), new user_actions.userLoginError(error.message) })
-    );
-
   loginUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
-    .mergeMap((action) =>
-      this.featherService.authenticate(action.payload.credentials)
-        .then((response) => {
-          return this.router.navigate(action.payload.redirectTo), new user_actions.userLoginSuccess({ credentials: response })
-        })
-        .catch(error => {
-          return new user_actions.userLoginError(error.message);
-        })
-    );
+  .mergeMap(action =>
+    this.featherService.logout() // First ensure logout current user
+      .then(() => this.featherService.authenticate(action.payload.credentials)) // Then login new user
+      .then((auth) => { return this.router.navigate(action.payload.redirectTo), new user_actions.userLoginSuccess({ credentials: auth }) })
+      .catch((error) => { return new user_actions.userLogout(), new user_actions.userLoginError(error.message) })
+  );
 
   @Effect()
   logoutUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogout>(user_actions.USER_LOGOUT)

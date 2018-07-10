@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-home-view',
@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
   }
 })
 export class HomeViewComponent {
-
+  // @HostBinding('style.border') border = '3px solid red';
   constructor() { }
 }

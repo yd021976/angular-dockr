@@ -7,9 +7,9 @@ import { TemplatesComponent } from '../components/templates/templates.component'
 /** define module routes */
 const routes: Route[] = [
   {
-    path: '', data: { isMenu: true, title: 'Manage Templates', icon: 'settings', isAuthRequired: true, roles: ['admin,users'] }, children: [
+    path: '', data: { isMenu: true, title: 'Manage Templates', icon: 'settings', isAuthRequired: true, roles: ['admin','users'] }, children: [
       {
-        path: 'templates_home', component: TemplatesComponent, data: { isMenu: true, title: 'Templates', link: 'templates_home', isAuthRequired: true, roles: ['admin,users'] }
+        path: 'templates_home', component: TemplatesComponent, data: { isMenu: true, title: 'Templates', link: 'templates_home', isAuthRequired: true, roles: ['admin','users'] }
       }
     ]
   }
