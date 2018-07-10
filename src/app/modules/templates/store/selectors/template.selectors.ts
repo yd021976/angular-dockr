@@ -15,19 +15,19 @@ const templateEntities = createSelector(templateFeatureSelector, templateSchemaS
 const getAllTemplates = createSelector(templateEntities, templateSchemaSelector.entitiesProjector);
 
 
-const templateError = (state:template_state.ITemplates) => state.error;
+const templateError = (state: template_state.ITemplates) => state.error;
 const getError = createSelector(templateFeatureSelector, templateError);
 
 /**
  * Selected template
  */
-const selectedTemplateId = (state: template_state.ITemplates) => state.selectedTemplateId;
-const selectedTemplateObject = createSelector(
+const templateId = createSelector(templateFeatureSelector, state => state.selectedTemplateId);
+const entities = createSelector(
   templateFeatureSelector,
-  templateSchemaSelector.getEntities
+  templateSchemaSelector.getNormalizedEntities
 );
-const test = createSelector(selectedTemplateObject,selectedTemplateId,templateSchemaSelector.entityProjector);
-const test2 = createSelector(templateFeatureSelector,selectedTemplateId);
+const selectedTemplate = createSelector(entities,templateId,templateSchemaSelector.entityProjector);
+
 /**
  * Selected Zone
  */
@@ -38,7 +38,7 @@ const test2 = createSelector(templateFeatureSelector,selectedTemplateId);
 const selectors = {
   templates: {
     "getAllTemplates": getAllTemplates,
-    "getSelectedTemplate" : test2,
+    "getSelectedTemplate": selectedTemplate,
     "getError": getError,
   }
 }
