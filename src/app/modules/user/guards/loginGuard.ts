@@ -10,6 +10,7 @@ import * as user_components from '../components';
 import * as user_model from '../store/models/user.model';
 import * as user_selectors from '../store/selectors/user.selectors';
 import { Subscription } from '../../../../../node_modules/rxjs';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Injectable()
 export class loginGuard implements CanActivate, CanActivateChild {
@@ -22,27 +23,31 @@ export class loginGuard implements CanActivate, CanActivateChild {
     private store: Store<any>,
     private dialog: MatDialog
   ) {
-    this.observableSubscribe = this.store.select(user_selectors.default.role).subscribe((role) => { this.userRole = role });
+    this.observableSubscribe = this.store.select(user_selectors.default.role).subscribe((role) => {
+      this.userRole = role
+    }
+    );
   }
 
   canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('loginGuard#canActivate called -- ' + new Date(Date.now()));
     const requiredRoles: Array<any> = _route.data['roles'] ? _route.data['roles'] : [];
-    const roleBool = requiredRoles[this.userRole];
+    // return true;
 
     // Restrict access to roles defined in route data
     if (requiredRoles.length != 0) {
-      // Ensure a user is authneticated (anonymous or real user)
+      // Ensure a user is authenticated (anonymous or real user)
       return this._ensureAuthUser(_route)
         .then(isAuth => {
-          // User role doesn't meet requirements : Cancel navigation
-          if (requiredRoles[this.userRole] === undefined) {
+          // If user role doesn't meet requirements : Cancel navigation
+          if (!this.checkPrivileges(this.userRole,_route.data['roles'])) {
             // does user want to login to access this page ?
             var dial = this.dialog.open(user_components.AuthDialogComponent, {
               data:
               {
                 title: "You are not allowed to view this page",
-                message: "Do you want to login to access page '" + _route.data['title'] + "'"
+                requiredRoles: _route.data['roles'],
+                message: `Do you want to log in as a different user to access page ${_route.data['title']} ?`
               }
             })
               .afterClosed().subscribe((selection) => {
@@ -70,53 +75,55 @@ export class loginGuard implements CanActivate, CanActivateChild {
   }
   canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('loginGuard#canActivateChild called');
-    return this._ensureAuthUser(_route);
+    return true;
+    // return this._ensureAuthUser(_route);
   }
 
-  private _ensureAuthUser(_route: ActivatedRouteSnapshot) {
-    // LoginService has no logged in user sets
-    return new Promise<boolean>((resolve, reject) => {
-      setTimeout(() => {
-        this.authUser(resolve, reject);
-      }, 500);
-    });
+  private _ensureAuthUser(_route: ActivatedRouteSnapshot): Promise<boolean> {
+    return this.authUser().then((auth) => {
+      return true;
+    }).catch((err) => {
+      return false;
+    })
   }
 
   /**
-   * Ensure we have user authenticated (anonymous or not)
+   * Ensure we have user authenticated, at least authenticate as anonymous user
    */
-  private authUser(resolve, reject) {
-    this.loginService.isAuth()
+  private async authUser(): Promise<boolean> {
+    return this.loginService.isAuth()
       .then((isAuth) => {
         // We already have a token stored in local storage => Try to authenticate again
         if (isAuth) {
-          this.loginService.authenticate()
+          return this.loginService.authenticate()
             .then(response => {
               this.store.dispatch(new user_actions.userLoginSuccess(response));
-              resolve(true);
+              return true;
             })
-            .catch(error => {
-              this.store.dispatch(new user_actions.userLoginError(error.message));
-              resolve(false);
-            });
-
           // We don't have a valid token in local storage : auth as anonymous
         } else {
-          this.loginService.authenticate({ strategy: 'anonymous' })
+          return this.loginService.authenticate({ strategy: 'anonymous' })
             .then(response => {
               this.store.dispatch(new user_actions.userLoginSuccess(response));
-              resolve(true);
+              return true;
             })
-            .catch(error => {
-              this.store.dispatch(new user_actions.userLoginError(error.message));
-              resolve(false);
-            });
         }
       })
       // Error occured in the process
       .catch(error => {
         this.store.dispatch(new user_actions.userLoginError(error.message));
-        resolve(false);
+        return false;
       })
+  }
+
+  /**
+   * Check if user role matches on of the route required roles
+   */
+  private checkPrivileges(userRole: string, requiredRoles: Array<string>): boolean {
+    if (userRole===undefined) return false;
+
+    return requiredRoles.some((val, index) => { 
+      return val === userRole }
+    );
   }
 }

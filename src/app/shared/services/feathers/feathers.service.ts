@@ -84,8 +84,11 @@ export class FeathersService implements user_services.userService {
   }
 
   /** 
-   * Check if user is authenticated
-   * NOTE : You must authenticate if user is authenticated, this method DO NOT authenticated user even if payload is valid !!!
+   * Check if user is authenticated.
+   * 
+   * NOTE : 
+   * - For anonymous users, return FALSE
+   * - You must authenticate if user is authenticated, this method DO NOT authenticated user even if payload is valid !!!
   */
   public isAuth(): Promise<boolean> {
     var isAuth = false, jwt = null, jwt_data = '';
@@ -94,7 +97,7 @@ export class FeathersService implements user_services.userService {
       this._feathers.passport.getJWT()
         .then((token) => {
           jwt = token;
-          if (jwt !== null && jwt) {
+          if (jwt !== null) {
             this._feathers.passport.verifyJWT(jwt)
               .then((data) => {
                 jwt_data = data;

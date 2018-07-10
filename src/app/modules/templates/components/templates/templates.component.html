@@ -18,10 +18,10 @@
     </div>
     <div fxLayout="row" fxFlexOffset="30px">
       <div *ngIf="selectedTemplate">
-        <button mat-button color="accent">Delete</button>
+        <button mat-button color="accent" (click)="deleteTemplate()">Delete</button>
       </div>
       <div>
-        <button mat-button color="accent">New</button>
+        <button mat-button color="accent" (click)="addTemplate()">New</button>
       </div>
     </div>
   </div>

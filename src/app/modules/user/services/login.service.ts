@@ -8,9 +8,9 @@ import * as feathersClient from 'feathers/client';
  */
 export interface userService {
   user: any;
-  authenticate(payload?: user_model.loginCredentials): Promise<any>
-  logout(): Promise<any>
-  isAuth(): Promise<any>
+  authenticate(payload?: user_model.loginCredentials): Promise<any>;
+  logout(): Promise<void>;
+  isAuth(): Promise<boolean>;
 }
 
 /**
@@ -19,13 +19,13 @@ export interface userService {
 class feathersMock implements userService {
   user: any;
   authenticate(payload: user_model.loginCredentials) {
-    return new Promise<any>((resolve, reject) => { resolve(true); });
+    return new Promise<boolean>((resolve, reject) => { resolve(true); });
   }
   logout() {
-    return new Promise<any>((resolve, reject) => { resolve(true); });
+    return new Promise<void>((resolve, reject) => { resolve(); });
   }
   isAuth() {
-    return new Promise<any>((resolve, reject) => { resolve(true); });
+    return new Promise<boolean>((resolve, reject) => { resolve(true); });
   }
 }
 

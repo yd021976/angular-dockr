@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatGridListModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { UiComponentsModule} from '../../shared/ui-components/ui-components.module';
+import { UiComponentsModule } from '../../shared/ui-components/ui-components.module';
 
 import { template_module } from './';
 import { templatesRouterModule } from './routes/templates.routes.module';
@@ -18,15 +18,15 @@ import { templatesRouterModule } from './routes/templates.routes.module';
     FlexLayoutModule,
     templatesRouterModule,
     UiComponentsModule,
-    StoreModule.forFeature('templates', template_module.store.reducers.reducer),
+    StoreModule.forFeature('templates', template_module.store.reducers.reducer, { initialState: template_module.store.state.initialState() }),
     EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],
   declarations: [template_module.components.TemplateFormComponent, template_module.components.TemplatesComponent, template_module.components.TemplateZonesComponent],
   providers: [
     {
-    provide: template_module.services.templateServiceToken,
-    useFactory: template_module.services.templateServiceFactory,
-    deps: [Injector]
+      provide: template_module.services.templateServiceToken,
+      useFactory: template_module.services.templateServiceFactory,
+      deps: [Injector]
     }
   ],
   exports: [template_module.components.TemplatesComponent]

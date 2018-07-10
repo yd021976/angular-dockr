@@ -30,6 +30,7 @@
     "@ngrx/store": "^5.2.0",
     "@ngrx/store-devtools": "^5.2.0",
     "@types/fabric": "^1.5.32",
+    "canvas": "^1.6.11",
     "core-js": "^2.5.4",
     "fabric": "^2.2.3",
     "feathers-client": "^2.4.0",

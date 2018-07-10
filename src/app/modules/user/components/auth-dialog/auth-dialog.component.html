@@ -1,5 +1,15 @@
 <h2 mat-dialog-title>{{data.title}}</h2>
-<mat-dialog-content>{{data.message}}</mat-dialog-content>
+<mat-dialog-content>
+  <div>
+    The page you want to access require one of the following privileges :
+    <div *ngFor="let role of data.requiredRoles" style="margin-left:16px;font-weight: bold">
+      <li>{{role}}</li>
+    </div>
+    <div style="margin-top: 16px">
+      {{data.message}}
+    </div>
+  </div>
+</mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>No</button>
   <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->

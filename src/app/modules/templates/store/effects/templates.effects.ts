@@ -42,10 +42,21 @@ export class templatesEffects {
     .switchMap(action => this.templateService.create(action.payload)
       .mergeMap((result: template_model.ITemplate) => [
         new AddData<template_model.ITemplate>({ data: [result], schema: template_model.schemas }),
-        new template_actions.addTemplateSuccess(result)
+        new template_actions.addTemplateSuccess(result),
+        new template_actions.selectTemplate(result)
       ])
       .catch(error => { return [new template_actions.addTemplateError(error.message)] }
       )
     )
 
+  @Effect()
+  removeTemplate$ = this.actions$
+    .ofType<template_actions.removeTemplate>(template_actions.TEMPLATE_REMOVE)
+    .switchMap(action => this.templateService.delete(action.payload)
+      .mergeMap((result: template_model.ITemplate) => [
+        new RemoveData({ id: result._id, removeChildren: { zones: 'zones' }, schema: template_model.schemas }),
+        new template_actions.removeTemplateSuccess(result)
+      ])
+      .catch(error => [new template_actions.removeTemplateError(error.message)])
+    )
 }
