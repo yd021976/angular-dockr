@@ -1,0 +1,13 @@
+<mat-form-field>
+  <mat-select [value]="selectedValue" [compareWith]="compareFn">
+    <mat-option *ngFor="let val of selectValues" [value]="val">{{val.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div>
+  <h4>Select this:</h4>
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="valueToSelect">
+  </mat-form-field>
+  <button mat-button color="accent" (click)="selectValue()">Select</button>
+</div>
