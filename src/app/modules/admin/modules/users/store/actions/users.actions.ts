@@ -1,43 +1,23 @@
 import { Action } from '@ngrx/store';
-// import * as template_model from '../models/template.model';
-// import * as zone_model from '../models/zone.model';
+import * as users_model from '../models/users.model';
 
-// export const TEMPLATE_SELECT = "[TEMPLATES] SELECT TEMPLATE";
-// export const TEMPLATE_SELECT_ZONE = "[TEMPLATES] SELECT ZONE";
+export const USERS_GET_LIST = "[USERS] GET LIST";
+export const USERS_GET_LIST_SUCCESS = "[USERS] GET LIST SUCCESS";
+export const USERS_GET_LIST_ERROR = "[USERS] GET LIST ERROR";
 
+export class getListUsers implements Action {
+    readonly type = USERS_GET_LIST;
+    constructor() { }
+}
+export class getListSuccessUsers implements Action {
+    readonly type = USERS_GET_LIST_SUCCESS;
+    constructor(public payload: users_model.IUsers[]) { }
+}
+export class getListErrorUsers implements Action {
+    readonly type = USERS_GET_LIST_ERROR;
+    constructor(public payload: string) { }
+}
 
-// export const TEMPLATE_LOAD = "[TEMPLATES] LOAD";
-// export const TEMPLATE_LOAD_SUCCESS = "[TEMPLATES] LOAD SUCCESS";
-// export const TEMPLATE_LOAD_ERROR = "[TEMPLATES] LOAD ERROR";
-
-// export const TEMPLATE_ADD = "[TEMPLATES] ADD";
-// export const TEMPLATE_ADD_SUCCESS = "[TEMPLATES] ADD SUCCESS";
-// export const TEMPLATE_ADD_ERROR = "[TEMPLATES] ADD ERROR";
-
-// export const TEMPLATE_REMOVE = "[TEMPLATES] REMOVE";
-// export const TEMPLATE_REMOVE_SUCCESS = "[TEMPLATES] REMOVE SUCCESS";
-// export const TEMPLATE_REMOVE_ERROR = "[TEMPLATES] REMOVE ERROR";
-
-// export const TEMPLATE_ADD_ZONE = "[TEMPLATES] ADD ZONE";
-// export const TEMPLATE_ADD_ZONE_SUCCESS = "[TEMPLATES] ADD ZONE SUCCESS";
-// export const TEMPLATE_ADD_ZONE_ERROR = "[TEMPLATES] ADD ZONE ERROR";
-
-// export const TEMPLATE_REMOVE_ZONE = "[TEMPLATES] REMOVE ZONE";
-// export const TEMPLATE_REMOVE_ZONE_SUCCESS = "[TEMPLATES] REMOVE ZONE SUCCESS";
-// export const TEMPLATE_REMOVE_ZONE_ERROR = "[TEMPLATES] REMOVE ZONE ERROR";
-
-// export class loadTemplates implements Action {
-//   readonly type = TEMPLATE_LOAD;
-//   constructor() { }
-// }
-// export class loadTemplatesSuccess implements Action {
-//   readonly type = TEMPLATE_LOAD_SUCCESS;
-//   constructor(public payload: template_model.ITemplate[]) { }
-// }
-// export class loadTemplatesError implements Action {
-//   readonly type = TEMPLATE_LOAD_ERROR;
-//   constructor(public payload: string) { }
-// }
 
 // export class selectTemplate implements Action {
 //   readonly type = TEMPLATE_SELECT;

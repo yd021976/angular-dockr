@@ -1,7 +1,9 @@
 // import * as template from './template.model';
-// import * as zone from './zone.model';
+import * as users_model from './users.model';
 
-// export default {
+export default {
+    model:users_model
+}
 //   template: template,
 //   zone: zone
 // }

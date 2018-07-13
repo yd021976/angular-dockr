@@ -1,4 +1,4 @@
-import { schema } from 'normalizr';
+// import { schema } from 'normalizr';
 // import * as zone_model from './zone.model';
 
 export interface IUsers {
