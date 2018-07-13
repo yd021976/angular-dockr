@@ -7,7 +7,6 @@ import * as feathersClient from 'feathers/client';
  * Interface that feathers service must provide (@see feathersServiceToken)
  */
 export interface userService {
-  user: any;
   authenticate(payload?: user_model.loginCredentials): Promise<any>;
   logout(): Promise<void>;
   isAuth(): Promise<boolean>;
@@ -17,7 +16,6 @@ export interface userService {
  * Mock feather service if no one is provided by top level modules
  */
 class feathersMock implements userService {
-  user: any;
   authenticate(payload: user_model.loginCredentials) {
     return new Promise<boolean>((resolve, reject) => { resolve(true); });
   }
@@ -30,7 +28,6 @@ class feathersMock implements userService {
 }
 
 class loginService implements userService {
-  user: any;
   constructor(private feathers: userService) { }
 
   authenticate(payload?) {

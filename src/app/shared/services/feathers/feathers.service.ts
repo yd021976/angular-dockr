@@ -12,7 +12,6 @@ import * as user_services from '../../../modules/user/services';
 export class FeathersService implements user_services.userService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
-  public user: any = null;
   static count: number = 0;
   currentCounter;
 
@@ -79,7 +78,6 @@ export class FeathersService implements user_services.userService {
   }
 
   public logout(): Promise<any> {
-    this.user = null;
     return this._feathers.logout();
   }
 
@@ -97,7 +95,7 @@ export class FeathersService implements user_services.userService {
       this._feathers.passport.getJWT()
         .then((token) => {
           jwt = token;
-          if (jwt !== null) {
+          if (jwt !== null && jwt !== undefined) {
             this._feathers.passport.verifyJWT(jwt)
               .then((data) => {
                 jwt_data = data;

@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes, Route } from '@angular/router';
-import { UsersModule } from '../modules/users/users.module';
+import { RouterModule, Route } from '@angular/router';
 
 /** define module routes */
-const routes: Route[] = [
+export const routes: Route[] = [
   {
-    path: 'admin_home', data: { isMenu: true, title: 'Admin', link: 'admin_home', isAuthRequired: false, roles: [] },
-    loadChildren: '../modules/users/users.module'
+    path: '', data: { isMenu: true, title: 'Admin', isAuthRequired: false, roles: [] }, children: [
+      {
+        path: 'users', data: { isMenu: true, title: 'Users', link: 'users', isAuthRequired: false, roles: [] }, loadChildren: '../modules/users/users.module#UsersModule'
+      }
+    ]
   }
 ]
 
@@ -17,8 +19,6 @@ const routes: Route[] = [
     RouterModule.forChild(routes),
   ],
   providers: [],
-  exports: [
-    RouterModule
-  ],
+  exports: [RouterModule],
 })
 export class adminRouterModule { }
