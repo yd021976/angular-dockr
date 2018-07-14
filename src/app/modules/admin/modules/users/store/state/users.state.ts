@@ -5,23 +5,11 @@ export type error = {
   error: string
 }
 
-export interface ITemplates extends NormalizedState {
-  selectedTemplateId: string;
-  selectedZoneId: string;
-  error: error
+export interface IUser {
 }
 
-export const initialState = function (): ITemplates {
+export const initialState = function (): IUser {
   return {
-    selectedTemplateId: '',
-    selectedZoneId: '',
-    error: {
-      hasError: false,
-      error: '',
-    },
-    normalized: {
-      entities: {},
-      result: []
-    }
+
   }
 }
