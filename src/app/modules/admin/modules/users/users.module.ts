@@ -7,7 +7,7 @@ import { UsersComponent } from './components/users/users.component';
 import { usersRouterModule } from './routes/users.routes.module';
 import * as users_reducers from './store/reducers';
 import * as users_effects from './store/effects';
-import { ListComponent } from './components/list/list.component';
+import { UsersListComponent } from './components/users.list/users.list.component';
 
 
 @NgModule({
@@ -17,6 +17,6 @@ import { ListComponent } from './components/list/list.component';
     StoreModule.forFeature('users', users_reducers.reducer),
     // EffectsModule.forFeature(users_effects)
   ],
-  declarations: [UsersComponent, ListComponent]
+  declarations: [UsersComponent, UsersListComponent]
 })
 export class UsersModule { }
