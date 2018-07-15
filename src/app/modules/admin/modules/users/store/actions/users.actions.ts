@@ -1,26 +1,17 @@
-import { Action } from '@ngrx/store';
-import * as users_model from '../models/users.model';
-
-export const USERS_GET_LIST = "[USERS] GET LIST";
-export const USERS_GET_LIST_SUCCESS = "[USERS] GET LIST SUCCESS";
-export const USERS_GET_LIST_ERROR = "[USERS] GET LIST ERROR";
-
-export class getUsersList implements Action {
-    readonly type = USERS_GET_LIST;
-    constructor() { }
-}
-export class getUsersListSuccess implements Action {
-    readonly type = USERS_GET_LIST_SUCCESS;
-    constructor(public payload: users_model.IUsers[]) { }
-}
-export class getUsersListError implements Action {
-    readonly type = USERS_GET_LIST_ERROR;
-    constructor(public payload: string) { }
-}
-
-
+import * as users_actions_get_all from './users.actions.get.list';
+import * as users_actions_add from './users.actions.add.user';
+import * as users_actions_remove from './users.actions.remove.user';
+import * as users_actions_update from './users.actions.update.user';
 
 export type All =
-    getUsersList |
-    getUsersListSuccess |
-    getUsersListError;
+    users_actions_get_all.All |
+    users_actions_add.All |
+    users_actions_remove.All |
+    users_actions_update.All;
+
+export const actions = {
+    getAll: users_actions_get_all,
+    add: users_actions_add,
+    remove: users_actions_remove,
+    update: users_actions_update
+}

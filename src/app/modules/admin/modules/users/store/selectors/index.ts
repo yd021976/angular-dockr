@@ -1,1 +1,1 @@
-export * from './template.selectors';
+export * from './users.selectors';

@@ -1,10 +1,9 @@
 // import { schema } from 'normalizr';
-// import * as zone_model from './zone.model';
 
-export interface IUsers {
+export interface IUser {
   _id?: string;
   mail: string;
-  role?:string;
+  role?:Array<string>;
 }
 
 // export const schemas = new schema.Entity('users', { idAttribute: '_id' });

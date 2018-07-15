@@ -1,24 +1,19 @@
 import * as users_actions from '../actions';
-// import * as template_model from '../models/template.model';
-// import * as template_state from '../state/template.state';
+import * as users_model from '../models';
+import * as users_state from '../state';
 // import { NormalizedState, normalized, createSchemaSelectors, RemoveData } from 'ngrx-normalizr';
-// import { ActionReducerMap, combineReducers } from '@ngrx/store';
+import { ActionReducerMap, combineReducers } from '@ngrx/store';
 
-type Actions = users_actions.All;
-// const selectedTemplateReducer = (state: string, action: Actions) => {
-//   switch (action.type) {
+type Actions = users_actions.All
+const getUsers = (state: users_model.IUser = users_state.initialState(), action: Actions) => {
+  switch (action.type) {
 
-//     case template_actions.TEMPLATE_SELECT:
-//       return state == action.payload._id ? "" : action.payload._id;
+    case users_actions.actions.getAll.USERS_GET_LIST:
+      return {};
 
-//     default:
-//       return state;
-//   }
-// }
+    default:
+      return state;
+  }
+}
 
-// export const reducer: ActionReducerMap<template_state.ITemplates> = {
-//   normalized: normalized,
-//   selectedTemplateId: selectedTemplateReducer,
-//   selectedZoneId: selectedZoneReducer,
-//   error: errorReducer
-// }
+export const reducer = { getUsers };

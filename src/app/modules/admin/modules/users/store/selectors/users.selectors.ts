@@ -1,12 +1,8 @@
 // import { NormalizedState, normalized, createSchemaSelectors, EntityMap } from 'ngrx-normalizr';
-// import * as template_model from '../models/template.model';
-// import * as template_state from '../state/template.state';
-// import * as zone_model from '../models/zone.model';
-// import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import * as users_model from '../models';
 
-
-
-// const templateFeatureSelector = createFeatureSelector<template_state.ITemplates>('templates');
+const usersFeatureSelector = createFeatureSelector<users_model.IUser>('users');
 // /** 
 //  * Get all templates
 // */
@@ -35,12 +31,8 @@
 // // const selectedZone = (state: template_state.ITemplates) => { return state.selectedZoneId }
 // // const getSelectedZone = createSelector(allZones.getNormalizedEntities, selectedZone, allZones.entityProjector);
 
-// const selectors = {
-//   templates: {
-//     "getAllTemplates": getAllTemplates,
-//     "getSelectedTemplate": selectedTemplate,
-//     "getError": getError,
-//   }
-// }
+const selectors = {
+  
+}
 
-// export default selectors;
+export default selectors;
