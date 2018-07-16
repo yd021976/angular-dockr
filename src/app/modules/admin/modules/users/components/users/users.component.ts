@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { IUser } from '../../store/models';
+import * as users_selectors from '../../store/selectors';
 
 @Component({
   selector: 'app-users',
@@ -6,8 +10,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  private users$: Observable<IUser[]>;
 
-  constructor() { }
+  constructor(private store: Store<any>) {
+  }
 
   ngOnInit() {
   }

@@ -6,10 +6,20 @@ export type error = {
   error: string
 }
 
-export const initialState = function (): users_model.IUser {
+export interface IUsers extends NormalizedState {
+  selectedUser: string,
+  isLoading: boolean,
+  error: error
+}
+
+export const initialState = function (): IUsers {
   return {
-    _id: '',
-    mail: '',
-    role : []
+    isLoading: false,
+    selectedUser: '',
+    error: { hasError: false, error: '' },
+    normalized: {
+      entities: {},
+      result: []
+    }
   }
 }
