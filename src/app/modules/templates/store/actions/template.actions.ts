@@ -14,6 +14,10 @@ export const TEMPLATE_ADD = "[TEMPLATES] ADD";
 export const TEMPLATE_ADD_SUCCESS = "[TEMPLATES] ADD SUCCESS";
 export const TEMPLATE_ADD_ERROR = "[TEMPLATES] ADD ERROR";
 
+export const TEMPLATE_UPDATE = "[TEMPLATES] UPDATE ZONE";
+export const TEMPLATE_UPDATE_SUCCESS = "[TEMPLATES] UPDATE SUCCESS";
+export const TEMPLATE_UPDATE_ERROR = "[TEMPLATES] UPDATE ERROR";
+
 export const TEMPLATE_REMOVE = "[TEMPLATES] REMOVE";
 export const TEMPLATE_REMOVE_SUCCESS = "[TEMPLATES] REMOVE SUCCESS";
 export const TEMPLATE_REMOVE_ERROR = "[TEMPLATES] REMOVE ERROR";
@@ -21,6 +25,7 @@ export const TEMPLATE_REMOVE_ERROR = "[TEMPLATES] REMOVE ERROR";
 export const TEMPLATE_ADD_ZONE = "[TEMPLATES] ADD ZONE";
 export const TEMPLATE_ADD_ZONE_SUCCESS = "[TEMPLATES] ADD ZONE SUCCESS";
 export const TEMPLATE_ADD_ZONE_ERROR = "[TEMPLATES] ADD ZONE ERROR";
+
 
 export const TEMPLATE_REMOVE_ZONE = "[TEMPLATES] REMOVE ZONE";
 export const TEMPLATE_REMOVE_ZONE_SUCCESS = "[TEMPLATES] REMOVE ZONE SUCCESS";
@@ -59,6 +64,18 @@ export class addTemplateSuccess {
 }
 export class addTemplateError implements Action {
   readonly type = TEMPLATE_ADD_ERROR;
+  constructor(public payload: string) { }
+}
+export class updateTemplate implements Action {
+  readonly type = TEMPLATE_UPDATE;
+  constructor(public payload: template_model.ITemplate) { }
+}
+export class updateTemplateSuccess {
+  readonly type = TEMPLATE_UPDATE_SUCCESS;
+  constructor(public payload: template_model.ITemplate) { }
+}
+export class updateTemplateError implements Action {
+  readonly type = TEMPLATE_UPDATE_ERROR;
   constructor(public payload: string) { }
 }
 
@@ -112,7 +129,11 @@ export type All =
   addTemplate |
   addTemplateSuccess |
   addTemplateError |
-
+  
+  updateTemplate |
+  updateTemplateSuccess |
+  updateTemplateError |
+  
   removeTemplate |
   removeTemplateSuccess |
   removeTemplateError |

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
-import { AddData, AddChildData, RemoveChildData, RemoveData } from 'ngrx-normalizr';
+import { AddData, AddChildData, RemoveChildData, RemoveData, SetData } from 'ngrx-normalizr';
 
 // import { FeathersTemplates } from "../../../feathers/documents/templates";
 import * as template_service from '../../services/template.service';
@@ -59,4 +59,16 @@ export class templatesEffects {
       ])
       .catch(error => [new template_actions.removeTemplateError(error.message)])
     )
+  
+  @Effect()
+  updateTemplate$ = this.actions$
+      .ofType<template_actions.updateTemplate>(template_actions.TEMPLATE_UPDATE)
+      .switchMap(action => this.templateService.update(action.payload)
+        .mergeMap((result: template_model.ITemplate) => [
+          new AddData({ data: [result], schema: template_model.schemas }),
+          new template_actions.updateTemplateSuccess(result),
+          new template_actions.selectTemplate(result)
+        ])
+        .catch(error => [new template_actions.updateTemplateError(error.message)])
+      )
 }

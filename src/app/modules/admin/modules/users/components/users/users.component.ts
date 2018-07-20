@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IUser } from '../../store/models';
-import * as users_selectors from '../../store/selectors';
 
 @Component({
   selector: 'app-users',
@@ -10,9 +7,10 @@ import * as users_selectors from '../../store/selectors';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  private users$: Observable<IUser[]>;
+  @Input() users: IUser[];
+  @Output() selectUser = new EventEmitter<IUser>();
 
-  constructor(private store: Store<any>) {
+  constructor() {
   }
 
   ngOnInit() {
