@@ -1,0 +1,8 @@
+<H3>Edit template</H3>
+<button mat-button color="accent" (click)="saveTemplate()" [disabled]="!templateEditorForm.dirty">Save changes</button>
+<form #templateEditorForm="ngForm">
+  <div fxLayout="row" fxLayoutAlign="start top" fxLayoutGap="96px" class="editors">
+    <app-template-form [template]="template"></app-template-form>
+    <app-template-zones [zones]="template?.zones"></app-template-zones>
+  </div>
+</form>

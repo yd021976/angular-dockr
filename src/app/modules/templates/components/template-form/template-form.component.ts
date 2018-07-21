@@ -12,13 +12,13 @@ export class TemplateFormComponent implements OnInit {
   @Input() public template: template_model.ITemplate = null;
   @Output() public templateNameUpdate = new EventEmitter<string>()
 
-  public form: NgForm;
+  public templateForm: NgForm;
 
   constructor() { }
 
   ngOnInit() { }
 
-  templateNameChange(event, form) {
-    this.templateNameUpdate.emit(event);
+  templateNameChange(templateName, form) {
+    if (form.isDirty) this.templateNameUpdate.emit(templateName);
   }
 }

@@ -10,7 +10,8 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <div>
       <mat-form-field>
-        <mat-select [(value)]="selectedTemplate" (selectionChange)="onTemplateChange($event)" [compareWith]="compareTemplateObjects" placeholder="Select template">
+        <mat-select [(value)]="selectedTemplate" (selectionChange)="onTemplateChange($event)" [compareWith]="compareTemplateObjects"
+          placeholder="Select template">
           <mat-option>--</mat-option>
           <mat-option *ngFor="let template of templates" [value]="template">{{template.name}}</mat-option>
         </mat-select>
@@ -27,10 +28,7 @@
   </div>
   <div>
     <app-backdrop [show]="!selectedTemplate" [showSpinner]="false" opacity="0.7" blur="1px"></app-backdrop>
-      <div fxLayout="row" fxLayoutAlign="start top" fxLayoutGap="96px" class="editors">
-      <app-template-form [template]="selectedTemplate"></app-template-form>
-      <app-template-zones [zones]="selectedTemplate?.zones"></app-template-zones>
-    </div>
+    <app-template-editor [template]="selectedTemplate"></app-template-editor>
   </div>
 
 </ng-container>

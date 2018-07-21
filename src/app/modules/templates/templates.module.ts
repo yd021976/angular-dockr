@@ -10,6 +10,7 @@ import { UiComponentsModule } from '../../shared/ui-components/ui-components.mod
 import { template_module } from './';
 import { templatesRouterModule } from './routes/templates.routes.module';
 import { templatesSandBox } from './sandbox-templates';
+import { TemplateEditorComponent } from './components/template-editor/template-editor.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { templatesSandBox } from './sandbox-templates';
     StoreModule.forFeature('templates', template_module.store.reducers.reducer, { initialState: template_module.store.state.initialState() }),
     EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],
-  declarations: [template_module.components.TemplateFormComponent, template_module.containers.TemplatesContainer, template_module.components.TemplateZonesComponent],
+  declarations: [template_module.components.TemplateFormComponent, template_module.containers.TemplatesContainer, template_module.components.TemplateZonesComponent, TemplateEditorComponent],
   providers: [
     {
       provide: template_module.services.templateServiceToken,
