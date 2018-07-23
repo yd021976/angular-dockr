@@ -1,24 +1,29 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, DoCheck } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs';
 import * as template_model from '../../store/models/template.model';
-import { NgForm } from '../../../../../../node_modules/@angular/forms';
-
 
 @Component({
   selector: 'app-template-form',
   templateUrl: './template-form.component.html',
   styleUrls: ['./template-form.component.scss']
 })
-export class TemplateFormComponent implements OnInit {
+export class TemplateFormComponent implements OnInit, DoCheck {
   @Input() public template: template_model.ITemplate = null;
-  @Output() public templateNameUpdate = new EventEmitter<string>()
+  @Output() public formIsDirty = new EventEmitter<boolean>()
 
-  public templateForm: NgForm;
+  @ViewChild('tplForm') public tplForm: NgForm;
 
+  private _oldFormDirtyStatus: boolean = false;
   constructor() { }
 
   ngOnInit() { }
 
-  templateNameChange(templateName, form) {
-    if (form.isDirty) this.templateNameUpdate.emit(templateName);
+  ngDoCheck() {
+    if (this.tplForm.dirty == true && this._oldFormDirtyStatus != this.tplForm.dirty) {
+      this.formIsDirty.emit(true);
+      this._oldFormDirtyStatus = this.tplForm.dirty;
+    }
   }
 }

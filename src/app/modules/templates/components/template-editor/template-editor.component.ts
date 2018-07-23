@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ITemplate } from '../../store/models/template.model';
 
 @Component({
@@ -8,10 +8,19 @@ import { ITemplate } from '../../store/models/template.model';
 })
 export class TemplateEditorComponent implements OnInit {
   @Input() template: ITemplate;
-  
+  @Input() dirty: boolean = false;
+  @Output() save = new EventEmitter<ITemplate>();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setDirtyForm(dirtyStatus:boolean) {
+    this.dirty = dirtyStatus;
+  }
+
+  saveTemplate() {
+    this.save.emit(this.template);
   }
 
 }

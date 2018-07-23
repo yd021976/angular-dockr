@@ -1,9 +1,9 @@
 <div class="editor">
-  <h3>Template properties</h3>
+  <h5>Template properties</h5>
   <div>
-    <form #templateForm="ngForm">
+    <form #tplForm="ngForm">
       <mat-form-field>
-        <input matInput type="text" placeholder="Name" [ngModel]="template && template.name" name="name" (ngModelChange)="templateNameChange($event,templateForm)">
+        <input matInput type="text" placeholder="Name" [(ngModel)]="template && template.name" name="name">
       </mat-form-field>
     </form>
   </div>
