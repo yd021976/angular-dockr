@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UserModule } from './user/user.module';
+import { UserModule } from './userLogin/user.module';
 import { TemplatesModule } from './templates/templates.module';
 import { FilesModule } from './files/files.module';
 import { TestsModule } from './tests/tests.module';

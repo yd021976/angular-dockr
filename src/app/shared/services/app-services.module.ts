@@ -7,7 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /** services and tokens */
 import { FeathersService } from './feathers/feathers.service';
-import * as user_service from '../../modules/user/services/login.service';
+import * as user_service from '../../modules/userLogin/services/login.service';
 import * as templates_service  from '../../modules/templates/services/template.service';
 
 @NgModule({
@@ -28,7 +28,7 @@ import * as templates_service  from '../../modules/templates/services/template.s
       provide: templates_service.templateServiceNameToken,
       useValue: 'templates'
     },
-    /** Feathers service for USER module */
+    /** Feathers service for USER LOGIN module */
     {
       provide: user_service.feathersServiceToken,
       useExisting: templates_service.feathersServiceToken
