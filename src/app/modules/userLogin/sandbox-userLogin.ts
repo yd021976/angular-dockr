@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import selectors from './store/selectors/user.selectors';
 import { loginCredentials,IUser } from './store/models/user.model';
-
+import * as user_actions from './store/actions/user.actions';
 
 /**
  * sandbox interface
@@ -21,8 +21,8 @@ export interface ISandboxUserLogin {
  * Sandbox implementation
  */
 export class sandboxUserLogin implements ISandboxUserLogin {
-  authenticateErrors$: Observable<string>;
-  isAuthenticated$: Observable<boolean>;
+  public authenticateErrors$: Observable<string>;
+  public isAuthenticated$: Observable<boolean>;
 
   /**
    * Ctor
@@ -35,8 +35,8 @@ export class sandboxUserLogin implements ISandboxUserLogin {
   /**
    * Login user
    */
-  login(credentials, redirect) {
-
+  login(credentials, redirectTo) {
+    this.store.dispatch(new user_actions.userLogin({ credentials: credentials, redirectTo: redirectTo }));
   }
 
   logout() {
