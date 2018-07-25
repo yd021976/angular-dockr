@@ -13,7 +13,7 @@ import * as user_actions from '../actions/user.actions';
 @Injectable()
 export class effects {
   constructor(
-    @Inject(user_service.LoginServiceToken) private featherService: user_service.userService,
+    @Inject(user_service.LoginServiceToken) private featherService: user_service.IUserLoginService,
     private router: Router,
     private actions$: Actions) { }
 

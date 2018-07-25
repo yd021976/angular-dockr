@@ -9,7 +9,7 @@ import * as socketio from 'socket.io-client';
 import * as user_services from '../../../modules/userLogin/services';
 
 @Injectable()
-export class FeathersService implements user_services.userService {
+export class FeathersService implements user_services.IFeatherService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
   static count: number = 0;
