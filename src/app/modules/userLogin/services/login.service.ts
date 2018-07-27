@@ -6,7 +6,7 @@ import * as feathersClient from 'feathers/client';
  * Interface that feathers service must provide (@see feathersServiceToken)
  */
 export interface IFeatherService {
-  authenticate(payload?: user_model.loginCredentials): Promise<any>;
+  authenticate(payload?: user_model.loginCredentials): Promise<user_model.loginSuccess>;
   logout(): Promise<void>;
   isAuth(): Promise<boolean>;
 }
@@ -14,7 +14,7 @@ export interface IFeatherService {
 /**
  * Interface that "user login" service must provide
  */
-export interface IUserLoginService extends IFeatherService{
+export interface IUserLoginService extends IFeatherService {
   authUser(): Promise<any>;
 }
 
@@ -23,7 +23,7 @@ export interface IUserLoginService extends IFeatherService{
  */
 class feathersMock implements IUserLoginService {
   authenticate(payload: user_model.loginCredentials) {
-    return new Promise<boolean>((resolve, reject) => { resolve(true); });
+    return new Promise<user_model.loginSuccess>((resolve, reject) => { resolve({}); });
   }
   logout() {
     return new Promise<void>((resolve, reject) => { resolve(); });
@@ -39,8 +39,13 @@ class feathersMock implements IUserLoginService {
 class loginService implements IUserLoginService {
   constructor(private feathers: IFeatherService) { }
 
-  authenticate(payload?) {
-    return this.feathers.authenticate(payload);
+  authenticate(payload?): Promise<user_model.loginSuccess> {
+    let userModel: user_model.loginSuccess = {};
+
+    return this.feathers.authenticate(payload).then((user) => {
+      Object.assign(userModel, user);
+      return userModel;
+    });
   }
 
   logout() {
@@ -50,7 +55,7 @@ class loginService implements IUserLoginService {
   isAuth() {
     return this.feathers.isAuth();
   }
-  authUser():Promise<any> { 
+  authUser(): Promise<user_model.loginSuccess> {
     return this.isAuth()
       .then((isAuth) => {
         // We already have a token stored in local storage => Try to authenticate again

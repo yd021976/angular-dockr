@@ -24,7 +24,7 @@ export class loginGuard implements CanActivate, CanActivateChild {
       return this.sandbox.authUser()
         .then(user => {
           // If user role doesn't meet requirements : Cancel navigation
-          if (!this.checkPrivileges(user, _route.data['roles'])) {
+          if (!this.checkPrivileges(user.role, _route.data['roles'])) {
             this._showDialog({
               requiredRoles: _route['roles'],
               title: _route.data['title'],

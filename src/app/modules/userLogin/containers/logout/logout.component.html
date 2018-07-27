@@ -9,7 +9,7 @@
   </ng-container>
 </div>
 
-<ng-container #notlogged *ngIf="!isAuthenticated">
+<ng-container #notlogged *ngIf="(isAuthenticated$ | async)==false">
   <div class="container">
     <h3>
       You are logged out

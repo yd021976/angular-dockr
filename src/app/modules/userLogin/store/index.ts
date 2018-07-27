@@ -10,6 +10,6 @@ export const store = {
   effects : user_effects,
   models : user_models,
   reducers : user_reducers,
-  selectors : user_selectors.default,
+  selectors : user_selectors,
   state : user_state
 }

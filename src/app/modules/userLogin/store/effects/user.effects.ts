@@ -42,14 +42,28 @@ export class effects {
   /** 
   * Loggin action effect : Request Feathers server to authenticate a new user, then dispatch success or error actions
   */
-  @Effect()
-  loginUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
-  .mergeMap(action =>
-    this.featherService.logout() // First ensure logout current user
-      .then(() => this.featherService.authenticate(action.payload.credentials)) // Then login new user
-      .then((auth) => { return this.router.navigate(action.payload.redirectTo), new user_actions.userLoginSuccess({ credentials: auth }) })
-      .catch((error) => { return new user_actions.userLogout(), new user_actions.userLoginError(error.message) })
-  );
+  // @Effect()
+  // loginUser$: Observable<Action> = this.actions$
+  //   .ofType<user_actions.userLogin>(user_actions.USER_LOGIN)
+  //   .switchMap(action =>
+  //     this.featherService.logout() // First ensure logout current user
+  //       .then(() => this.featherService.authenticate(action.payload.credentials)) // Then login new user
+  //       .then((authenticatedUser) => {
+  //         return new user_actions.userLoginSuccess({ credentials: authenticatedUser, redirectTo: action.payload.redirectTo })
+  //       })
+  //       .catch((error) => { return new user_actions.userLogout(), new user_actions.userLoginError(error.message) })
+  //   )
+
+  /**
+   * After login success navigate to last requested url. Default to / if payload is empty.
+   */
+  // @Effect({ dispatch: false })
+  // loginUserSuccess$: Observable<Action> = this.actions$
+  //   .ofType<user_actions.userLoginSuccess>(user_actions.USER_LOGIN_SUCCESS)
+  //     .do((action) => {
+  //     if (action.payload.redirectTo) this.router.navigateByUrl(action.payload.redirectTo);
+  //   });
+
 
   @Effect()
   logoutUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogout>(user_actions.USER_LOGOUT)
@@ -59,18 +73,18 @@ export class effects {
         .catch((error) => { return new user_actions.userLogoutError(error.message) })
     );
 
-  @Effect()
-  checkAuth$: Observable<Action> = this.actions$.ofType<user_actions.userCheckAuth>(user_actions.USER_CHECK_AUTH)
-    .mergeMap((action) =>
-      // Query if we are authenticated  
-      this.featherService.isAuth()
-        .then((response) => {
-          // If JWT is valid, authenticate user otherwise ensure logout user
-          return response == true ? new user_actions.userLogin() : new user_actions.userLogout();
-        })
-        // Error while check auth
-        .catch((error) => {
-          return new user_actions.userLogout();
-        })
-    )
+  // @Effect()
+  // checkAuth$: Observable<Action> = this.actions$.ofType<user_actions.userCheckAuth>(user_actions.USER_CHECK_AUTH)
+  //   .mergeMap((action) =>
+  //     // Query if we are authenticated  
+  //     this.featherService.isAuth()
+  //       .then((response) => {
+  //         // If JWT is valid, authenticate user otherwise ensure logout user
+  //         return response == true ? new user_actions.userLogin() : new user_actions.userLogout();
+  //       })
+  //       // Error while check auth
+  //       .catch((error) => {
+  //         return new user_actions.userLogout();
+  //       })
+  //   )
 }

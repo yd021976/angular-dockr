@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
-import * as user_model from '../../store/models/user.model';
-import * as user_actions from '../../store/actions/user.actions';
-import user_selectors from '../../store/selectors/user.selectors';
-
+import { ISandboxUserLogin } from '../../sandbox-userLogin';
 
 @Component({
   selector: 'user-logout',
@@ -13,16 +8,16 @@ import user_selectors from '../../store/selectors/user.selectors';
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-  
+
   public isAuthenticated$: Observable<boolean>;
 
-  constructor(private store: Store<user_model.IUser>) {
-    this.isAuthenticated$ = this.store.select(user_selectors.isAuthenticated);
+  constructor(@Inject('sandbox-user-login') private sandbox: ISandboxUserLogin) {
+    this.isAuthenticated$ = this.sandbox.isAuthenticated$;
   }
 
   ngOnInit() { }
 
   onLogout() {
-    this.store.dispatch(new user_actions.userLogout());
+    this.sandbox.logout();
   }
 }

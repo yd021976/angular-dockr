@@ -27,7 +27,7 @@ const routes = [
 })
 export class userLoginRouterModule {
   constructor(private router: Router, private route: ActivatedRoute) {
-    // Add loginGuard to all routes that require an authentificated user
+    // Add loginGuard to each route that require an authentificated user (use of "isAuthRequired" route data)
     this.router.config.
       filter(route => route.data && route.data.isAuthRequired).
       map(route => {

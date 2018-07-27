@@ -23,7 +23,7 @@
       </button>
     </div>
     <ng-container *ngIf="AuthError$ | async as AuthError">
-      <div class="login-error">Error is : {{AuthError}}</div>
+      <div class="login-error">Login error : {{AuthError}}</div>
     </ng-container>
   </form>
 </div>

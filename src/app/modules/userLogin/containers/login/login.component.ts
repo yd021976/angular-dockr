@@ -1,12 +1,9 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import * as user_model from '../../store/models/user.model';
-import * as user_actions from '../../store/actions/user.actions';
-import user_selectors from '../../store/selectors/user.selectors';
 import { ISandboxUserLogin } from '../../sandbox-userLogin';
 
 
@@ -19,9 +16,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   public credentials: user_model.loginCredentials = { strategy: 'local', email: '', password: '' };
   public AuthError$: Observable<string>;
   private subscribes: Array<Subscription>;
-  private redirectTo: Array<any>;
+  private redirectTo: string;
 
-  constructor(@Inject('sandbox-user-login') private sandbox: ISandboxUserLogin, public route: ActivatedRoute) {
+  constructor(@Inject('sandbox-user-login') private sandbox: ISandboxUserLogin, public route: ActivatedRoute, private router: Router) {
     this.AuthError$ = this.sandbox.authenticateErrors$;
     this.subscribes = new Array<Subscription>(); // Streams subscriptions objects (to clean up after destroy)
   }
@@ -34,15 +31,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         // Defaults to '' if no query param provided.
-        this.redirectTo = params['redirectTo'] || <any>[];
+        this.redirectTo = params['redirectTo'] || '/';
       }));
   }
   ngOnDestroy() {
     this.subscribes.forEach(sub => sub.unsubscribe());
   }
 
+  /**
+   * Authenticate user and if successfull, redirect to last requested URL if any
+   */
   onLogin() {
-    // TODO: Find a way to redirect when loggin user is successfull
-    this.sandbox.login(this.credentials, this.redirectTo);
+    this.sandbox.login(this.credentials).then((result) => {
+      if (result == true) {
+        this.router.navigateByUrl(this.redirectTo);
+      }
+    })
   }
 }
