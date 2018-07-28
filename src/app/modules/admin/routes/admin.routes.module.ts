@@ -7,7 +7,7 @@ export const routes: Route[] = [
   {
     path: '', data: { isMenu: true, title: 'Admin', isAuthRequired: false, roles: [] }, children: [
       {
-        path: 'users', data: { isMenu: true, title: 'Users', link: 'users', isAuthRequired: false, roles: [] }, loadChildren: '../modules/users/users.module#UsersModule'
+        path: 'users', data: { isMenu: true, title: 'Users', link: 'users', isAuthRequired: false, roles: [] }, loadChildren: '../../AdminUsers.module#AdminUsersModule'
       }
     ]
   }

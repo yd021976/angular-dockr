@@ -18,4 +18,4 @@ const routes: Route[] = [
   providers: [],
   exports: [],
 })
-export class usersRouterModule { }
+export class AdminUsersRouterModule { }
