@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 
-import { UsersComponent } from './components/users/users.component';
-import { AdminUsersRouterModule } from './routes/AdminUsers.routes.module';
+import { UsersDetailComponent } from './components/user.detail/user.detail.component';
 import * as users_reducers from './store/reducers';
 import { UsersListComponent } from './components/users.list/users.list.component';
 
@@ -11,9 +10,9 @@ import { UsersListComponent } from './components/users.list/users.list.component
 @NgModule({
   imports: [
     CommonModule,
-    AdminUsersRouterModule,
-    StoreModule.forFeature('users', users_reducers.reducer)
+    StoreModule.forFeature('users', users_reducers.reducer),
   ],
-  declarations: [UsersComponent, UsersListComponent]
+  declarations: [UsersDetailComponent, UsersListComponent],
+  exports: [UsersDetailComponent,UsersListComponent]
 })
 export class AdminUsersModule { }
