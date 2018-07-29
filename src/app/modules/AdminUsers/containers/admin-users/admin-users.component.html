@@ -1,3 +1,4 @@
-<p>
-  admin-users works!
-</p>
+<div>
+  <app-users-list [users]="sandbox.users$ | async"></app-users-list>
+  <app-user-detail></app-user-detail>
+</div>

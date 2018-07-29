@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { IUser } from '../../store/models';
+import { ISandboxAdminUsers } from '../../sandbox-AdminUsers';
+
+
 
 @Component({
   selector: 'app-admin-users',
@@ -6,10 +12,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-users.component.scss']
 })
 export class AdminUsersComponent implements OnInit {
+  public sandbox: ISandboxAdminUsers;
 
-  constructor() { }
+  constructor(@Inject('sandbox-admin-users') sandbox: ISandboxAdminUsers) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

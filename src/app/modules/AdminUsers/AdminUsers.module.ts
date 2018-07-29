@@ -6,6 +6,7 @@ import { UsersDetailComponent } from './components/user.detail/user.detail.compo
 import * as users_reducers from './store/reducers';
 import { UsersListComponent } from './components/users.list/users.list.component';
 import { AdminUsersComponent } from './containers/admin-users/admin-users.component';
+import { sandboxAdminUsers} from './sandbox-AdminUsers';
 
 
 @NgModule({
@@ -14,6 +15,12 @@ import { AdminUsersComponent } from './containers/admin-users/admin-users.compon
     StoreModule.forFeature('users', users_reducers.reducer),
   ],
   declarations: [UsersDetailComponent, UsersListComponent, AdminUsersComponent],
-  exports: [AdminUsersComponent]
+  exports: [AdminUsersComponent],
+  providers: [
+    {
+      provide: 'sandbox-admin-users',
+      useClass: sandboxAdminUsers
+    }
+  ]
 })
 export class AdminUsersModule { }
