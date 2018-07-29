@@ -10,7 +10,7 @@ import { DashboardComponent } from '../../shared/views/dashboard/dashboard.compo
 import { appRoute } from './routing.types';
 
 // User guard : Necessary because it update the User store slice
-import * as user_guards from '../../modules/userLogin/guards';
+import * as user_guards from '../../modules/user.login/guards';
 
 // Define the application routes
 const routes: appRoute[] =

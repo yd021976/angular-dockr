@@ -6,7 +6,7 @@ import * as hooks from 'feathers-hooks';
 import * as feathersAuthenticate from 'feathers-authentication-client';
 import * as feathersSocket from 'feathers-socketio/client';
 import * as socketio from 'socket.io-client';
-import * as user_services from '../../../modules/userLogin/services';
+import * as user_services from '../../../modules/user.login/services';
 
 @Injectable()
 export class FeathersService implements user_services.IFeatherService {

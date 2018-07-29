@@ -4,7 +4,7 @@ import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import * as user_components from '../components';
-import { ISandboxUserLogin } from '../sandbox-userLogin';
+import { ISandboxUserLogin } from '../sandbox-user-login';
 
 @Injectable()
 export class loginGuard implements CanActivate, CanActivateChild {

@@ -6,8 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { userLoginRouterModule } from './routes/user.routes.module';
-import { userLogin_module } from './index';
-import { sandboxUserLogin } from './sandbox-userLogin';
+import * as user_login_containers from './containers';
+import * as user_login_components from './components';
+import * as user_login_store from './store';
+import * as user_login_guards from './guards';
+import * as user_login_services from './services';
+import { sandboxUserLogin } from './sandbox-user-login';
 /**
  * Depedencies :
  * 
@@ -21,18 +25,30 @@ import { sandboxUserLogin } from './sandbox-userLogin';
     FormsModule,
     MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule,
     userLoginRouterModule,
-    StoreModule.forFeature('user', userLogin_module.store.reducers.reducer),
-    EffectsModule.forFeature([userLogin_module.store.effects.effects]),
+    StoreModule.forFeature('user', user_login_store.store.reducers.reducer),
+    EffectsModule.forFeature([user_login_store.store.effects.effects]),
   ],
-  declarations: [userLogin_module.containers.LoginComponent, userLogin_module.containers.LogoutComponent, userLogin_module.components.AuthDialogComponent],
-  entryComponents: [userLogin_module.components.AuthDialogComponent],
-  exports: [userLogin_module.containers.LoginComponent, userLogin_module.containers.LogoutComponent],
+
+  declarations: [
+    user_login_containers.LoginComponent,
+    user_login_containers.LogoutComponent,
+    user_login_components.AuthDialogComponent
+  ],
+
+  entryComponents: [
+    user_login_components.AuthDialogComponent
+  ],
+
+  exports: [
+    user_login_containers.LoginComponent,
+    user_login_containers.LogoutComponent],
+
   providers:
     [
-      userLogin_module.guards.loginGuard,
+      user_login_guards.loginGuard,
       {
-        provide: userLogin_module.services.LoginServiceToken,
-        useFactory: userLogin_module.services.loginServiceFactory,
+        provide: user_login_services.LoginServiceToken,
+        useFactory: user_login_services.loginServiceFactory,
         deps: [Injector]
       },
       {
@@ -41,5 +57,5 @@ import { sandboxUserLogin } from './sandbox-userLogin';
       }
     ]
 })
-export class UserModule { 
+export class UserLoginModule {
 }

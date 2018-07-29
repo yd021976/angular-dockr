@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ISandboxUserLogin } from '../../sandbox-userLogin';
+import { ISandboxUserLogin } from '../../sandbox-user-login';
 
 @Component({
   selector: 'user-logout',

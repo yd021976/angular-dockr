@@ -5,7 +5,7 @@ import * as rxjs from 'rxjs';
 
 import { themeItem } from '../shared/ui-components/nav-bar/nav-bar.component';
 import { Store } from '@ngrx/store';
-import { userLogin_module } from '../modules/userLogin';
+import { user_login_module } from '../modules/user.login';
 import { BackdropComponent } from '../shared/ui-components/backdrop/backdrop.component';
 import { OutletComponent } from '../shared/ui-components/outlet/outlet.component';
 
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public router: Router, public store: Store<any>) { }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.store.select(userLogin_module.store.selectors.isAuthenticated);
+    this.isAuthenticated$ = this.store.select(user_login_module.store.selectors.isAuthenticated);
   }
 
   ngOnDestroy() { }
@@ -37,9 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    this.store.dispatch(new userLogin_module.store.actions.userLoginNavigate());
+    this.store.dispatch(new user_login_module.store.actions.userLoginNavigate());
   }
   onLogout() {
-    this.store.dispatch(new userLogin_module.store.actions.userLogoutNavigate());
+    this.store.dispatch(new user_login_module.store.actions.userLogoutNavigate());
   }
 }
