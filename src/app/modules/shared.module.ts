@@ -11,10 +11,10 @@ import { AdminModule } from './admin/admin.module';
   imports: [
     CommonModule,
     UserLoginModule,
-    // TemplatesModule,
-    // FilesModule,
-    // TestsModule,
-    // AdminModule
+    TemplatesModule,
+    FilesModule,
+    TestsModule,
+    AdminModule
   ],
   declarations: [],
   providers: []
