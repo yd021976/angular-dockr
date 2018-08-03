@@ -23,7 +23,12 @@ import { TemplateEditorComponent } from './components/template-editor/template-e
     StoreModule.forFeature('templates', template_module.store.reducers.reducer, { initialState: template_module.store.state.initialState() }),
     EffectsModule.forFeature([template_module.store.effects.templatesEffects]),
   ],
-  declarations: [template_module.components.TemplateFormComponent, template_module.containers.TemplatesContainer, template_module.components.TemplateZonesComponent, TemplateEditorComponent],
+  declarations: [
+    template_module.components.TemplateFormComponent,
+    template_module.containers.TemplatesContainer,
+    template_module.components.TemplateZonesComponent,
+    TemplateEditorComponent
+  ],
   providers: [
     {
       provide: template_module.services.templateServiceToken,
@@ -35,6 +40,8 @@ import { TemplateEditorComponent } from './components/template-editor/template-e
       useClass: templatesSandBox
     }
   ],
-  exports: [template_module.containers.TemplatesContainer]
+  exports: [
+    template_module.containers.TemplatesContainer
+  ]
 })
 export class TemplatesModule { }

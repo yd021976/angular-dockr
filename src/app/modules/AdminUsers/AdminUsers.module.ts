@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 
@@ -6,7 +6,8 @@ import { UsersDetailComponent } from './components/user.detail/user.detail.compo
 import * as users_reducers from './store/reducers';
 import { UsersListComponent } from './components/users.list/users.list.component';
 import { AdminUsersComponent } from './containers/admin-users/admin-users.component';
-import { sandboxAdminUsers} from './sandbox-AdminUsers';
+import * as adminUsers_service from './services/users';
+import * as sandbox from './sandbox-AdminUsers';
 
 
 @NgModule({
@@ -17,9 +18,20 @@ import { sandboxAdminUsers} from './sandbox-AdminUsers';
   declarations: [UsersDetailComponent, UsersListComponent, AdminUsersComponent],
   exports: [AdminUsersComponent],
   providers: [
+    /**
+     * REST service for users management
+     */
     {
-      provide: 'sandbox-admin-users',
-      useClass: sandboxAdminUsers
+      provide: adminUsers_service.adminUsersServiceToken,
+      useFactory: adminUsers_service.AdminUsersServiceFactory,
+      deps: [Injector]
+    },
+    /**
+     * Abstract facade to access state/services/business logic
+     */
+    {
+      provide: sandbox.sandboxServiceToken,
+      useClass: sandbox.sandboxAdminUsers
     }
   ]
 })

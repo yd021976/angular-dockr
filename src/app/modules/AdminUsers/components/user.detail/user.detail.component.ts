@@ -7,8 +7,8 @@ import { IUser } from '../../store/models';
   styleUrls: ['./user.detail.component.scss']
 })
 export class UsersDetailComponent implements OnInit {
-  @Input() users: IUser[];
-  @Output() selectUser = new EventEmitter<IUser>();
+  @Input() user: IUser[];
+  // @Output() selectUser = new EventEmitter<IUser>();
 
   constructor() {
   }

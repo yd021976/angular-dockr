@@ -64,6 +64,7 @@ export const templateServiceFactory = (injector: Injector) => {
     templateServiceName = injector.get(templateServiceNameToken, 'templates');
   }
   catch{
+    console.warn('[templates] No feathers service provided => Will use mock service instead');
   }
   if (feathers) {
     template_service = new templateService(feathers, templateServiceName);

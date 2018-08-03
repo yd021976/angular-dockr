@@ -1,4 +1,4 @@
 <div>
-  <app-users-list [users]="sandbox.users$ | async"></app-users-list>
-  <app-user-detail></app-user-detail>
+  <app-users-list [users]="sandbox.users$ | async" (selectUser)="selectUser($event)"></app-users-list>
+  <app-user-detail [user]="selectedUser$ | async"></app-user-detail>
 </div>
