@@ -13,6 +13,7 @@ import { UiComponentsModule } from '../shared/ui-components/ui-components.module
 import { ViewsModule } from '../shared/views/views.module';
 import { SharedModule } from '../modules/shared.module';
 import { AppServicesModule } from '../shared/services/app-services.module';
+import { sandboxAppToken,sandboxApp} from './sandbox-app';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,12 @@ import { AppServicesModule } from '../shared/services/app-services.module';
     SharedModule
   ],
   exports: [],
-  providers: [],
+  providers: [
+    {
+      provide: sandboxAppToken,
+      useClass : sandboxApp
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

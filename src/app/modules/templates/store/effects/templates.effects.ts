@@ -16,7 +16,7 @@ import * as template_model from '../models/template.model';
 
 @Injectable()
 export class templatesEffects {
-  constructor(@Inject(template_service.templateServiceToken) private templateService: template_service.templateServiceBase, private actions$: Actions) { }
+  constructor(@Inject(template_service.templateServiceToken) private templateService: template_service.ITemplateServiceBase, private actions$: Actions) { }
   /** Load all templates */
   @Effect()
   loadTemplates$ = this.actions$

@@ -1,11 +1,11 @@
-import { Component, HostBinding, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import * as rxjs from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 import { themeItem } from '../shared/ui-components/nav-bar/nav-bar.component';
-import { Store } from '@ngrx/store';
 import { user_login_module } from '../modules/user.login';
+import * as sandbox from './sandbox-app';
 import { BackdropComponent } from '../shared/ui-components/backdrop/backdrop.component';
 import { OutletComponent } from '../shared/ui-components/outlet/outlet.component';
 
@@ -18,15 +18,21 @@ import { OutletComponent } from '../shared/ui-components/outlet/outlet.component
 
 export class AppComponent implements OnInit, OnDestroy {
   themes: themeItem[] = [{ name: 'Default', class_name: 'default' }, { name: 'Grey/Orange', class_name: 'app-theme-2' }];
-  public isAuthenticated$: rxjs.Observable<boolean>;
+
   // @HostBinding('@.disabled')
   @HostBinding('class') componentCssClass; // Binding for theme change
 
 
-  constructor(public router: Router, public store: Store<any>) { }
+  constructor(@Inject(sandbox.sandboxAppToken) public sandbox: sandbox.ISandboxApp, public router: Router) { }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.store.select(user_login_module.store.selectors.isAuthenticated);
+    return this.sandbox.initApiBackend()
+      .then((status) => {
+        this.sandbox.authUser();
+      })
+      .catch(error => {
+
+      })
   }
 
   ngOnDestroy() { }
@@ -37,9 +43,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    this.store.dispatch(new user_login_module.store.actions.userLoginNavigate());
+    this.sandbox.navigateLogin();
   }
   onLogout() {
-    this.store.dispatch(new user_login_module.store.actions.userLogoutNavigate());
+    this.sandbox.navigateLogout();
   }
 }

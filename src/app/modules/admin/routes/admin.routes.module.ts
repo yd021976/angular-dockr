@@ -6,9 +6,9 @@ import { AdminUsersComponent } from '../../AdminUsers/containers/admin-users/adm
 /** define module routes */
 export const routes: Route[] = [
   {
-    path: '', data: { isMenu: true, title: 'Admin', isAuthRequired: false, roles: [] }, children: [
+    path: '', data: { isMenu: true, title: 'Admin', isAuthRequired: true, roles: ['admin', 'users'] }, children: [
       {
-        path: 'users', data: { isMenu: true, title: 'Users', link: 'users', isAuthRequired: false, roles: [] }, component: AdminUsersComponent
+        path: 'users', data: { isMenu: true, title: 'Users', link: 'users', isAuthRequired: true, roles: ['admin', 'users'] }, component: AdminUsersComponent
       }
     ]
   }

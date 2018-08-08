@@ -33,7 +33,7 @@ import { TemplateEditorComponent } from './components/template-editor/template-e
     {
       provide: template_module.services.templateServiceToken,
       useFactory: template_module.services.templateServiceFactory,
-      deps: [Injector]
+      deps: [template_module.services.backendServiceToken]
     },
     {
       provide: 'sandbox',

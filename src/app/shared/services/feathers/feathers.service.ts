@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { FEATHERS_CONFIG, feathersConfig } from './feathers.config';
 import { config } from './feathers.default.config';
 import * as feathersClient from 'feathers/client';
@@ -7,12 +7,32 @@ import * as feathersAuthenticate from 'feathers-authentication-client';
 import * as feathersSocket from 'feathers-socketio/client';
 import * as socketio from 'socket.io-client';
 
+export const feathersServiceToken: InjectionToken<feathersClient.Application> = new InjectionToken<feathersClient.Application>('FEATHERS_SERVICE_BASE');
+
+/**
+ * Event types
+ */
+export enum feathersEvents {
+  'connect_error', // SocketIO connection error
+  'connect_timeout', // SocketIO connect time out
+  'connect', // SocketIO connect successfull
+  'authenticated', // Feathers authenticate successfull
+  'logout', // Feathers logout
+  'reauthentication-error' // Feathers reauth. error
+}
+
+/**
+ * SocketIO and Feathers Auth event handler callback signature 
+ */
+export type eventHandler = (eventName: string, eventData: any) => void;
+
 @Injectable()
 export class FeathersService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
+  private _eventHandlers: eventHandler[];
   static count: number = 0;
-  currentCounter;
+  private currentCounter: number = 0; // For debug purpose ONLY ==> Copy of static "count" property
 
   /**
    * 
@@ -20,26 +40,65 @@ export class FeathersService {
    */
   constructor(@Optional() @Inject(FEATHERS_CONFIG) private _config: feathersConfig) {
     if (this._config == null) this._config = config;
-    this._initSocketClient();
-    this._configureFeathers();
     FeathersService.count++;
     this.currentCounter = FeathersService.count;
   }
 
   /**
+   * Subscribe to SocketIo and Feathers events 
+   * 
+   * @param handler 
+   */
+  public subscribe(handler: eventHandler) {
+    this._eventHandlers.push(handler);
+  }
+  /**
+   * Initialize service
+   * 
+   * @param handler : Event handler callback to be notified of SokcetIO and Feathers events (@see eventHandler function type)
+   */
+  public initService(handler: eventHandler = null) {
+    if (handler) this._eventHandlers.push(handler);
+
+    // Initialize service
+    this._initSocketClient();
+    this._configureFeathers();
+  }
+
+  /**
+   * Notify subscribers of any event
+   * 
+   * @param eventName 
+   * @param eventData 
+   */
+  private sendEvent(eventName: string, eventData: any) {
+    this._eventHandlers.forEach(handler => {
+      handler(eventName, eventData);
+    })
+  }
+  /**
    * 
    */
-  private _initSocketClient() {
-    this._socketio = socketio(this._config.apiEndPoint);
-    this._socketio.on('connect_error', (error) => {
-      //TODO: Do something on socket connection error
-    });
-    this._socketio.on('connect_timeout', (error) => {
-      //TODO: Do something on socket connection time out
-    });
-    this._socketio.on('connect', (status) => {
-      //TODO: Do something on socket connection success
-    });
+  private _initSocketClient(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
+        this._socketio = socketio(this._config.apiEndPoint);
+
+        this._socketio.on('connect_error', (error) => {
+          this.sendEvent('connect_error', error);
+        });
+        this._socketio.on('connect_timeout', (error) => {
+          this.sendEvent('connect_timeout', error);
+        });
+        this._socketio.on('connect', (status) => {
+          this.sendEvent('connect', status);
+        });
+        resolve(true);
+      }
+      catch (error) {
+        reject(error);
+      }
+    })
   }
 
 
@@ -53,6 +112,33 @@ export class FeathersService {
       .configure(feathersAuthenticate({
         storage: window.localStorage
       }));
+
+    this._feathers.on('authenticated', (event) => {
+      this.sendEvent('authenticated', event);
+    });
+    this._feathers.on('logout', (event) => {
+      // TODO: Clear current user
+      this._feathers.set('user', null);
+
+      // Notify subscribers
+      this.sendEvent('logout', event);
+    });
+
+    this._feathers.on('reauthentication-error', (event) => {
+      this.sendEvent('reauthentication-error', event);
+
+      if (event.data.name == 'TokenExpiredError') {
+        const user = this._feathers.get('user');
+        // if token has expired and user was anonymous, just auth again as anonymous
+        if (user['anonymous']) this.authenticate({ strategy: 'anonymous' })
+          .then(user => {
+            this._feathers.set('user', user)
+          })
+          .catch(error => {
+            let a = 0;
+          });
+      }
+    });
   }
 
   public service(name: string): feathersClient.Service<any> {
@@ -100,7 +186,8 @@ export class FeathersService {
                 jwt_data = data;
                 isAuth = this._feathers.passport.payloadIsValid(jwt);
                 resolve(isAuth);
-              });
+              })
+              .catch(error => resolve(isAuth))
           } else {
             resolve(isAuth);
           }

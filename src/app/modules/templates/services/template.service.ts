@@ -5,14 +5,14 @@ import 'rxjs/add/observable/fromPromise';
 import { Service, Pagination, Application, Params, NullableId } from 'feathers/client';
 import * as templates_model from '../store/models/template.model';
 
-export interface templateServiceBase {
+export interface ITemplateServiceBase {
   loadAll(): Observable<any[] | Pagination<any>>
   create(payload: templates_model.ITemplate): Observable<any>
   update(payload: templates_model.ITemplate): Observable<any>
   delete(payload: templates_model.ITemplate): Observable<any>
 }
 
-class mockTemplateService implements templateServiceBase {
+class mockTemplateService implements ITemplateServiceBase {
   loadAll() {
     return Observable.of(Array({ _id: 'toto', name: 'toto', zones: [] }));
   }
@@ -27,11 +27,11 @@ class mockTemplateService implements templateServiceBase {
   }
 }
 
-export class templateService implements templateServiceBase {
-  private service: Service<any>;
+export class templateService implements ITemplateServiceBase {
+  private service: Service<templates_model.ITemplate>;
 
-  constructor(private feathers: Application, templateServiceName: string) {
-    this.service = feathers.service(templateServiceName);
+  constructor(backendService: Application, templateServiceName: string) {
+    this.service = backendService.service(templateServiceName);
   }
   public loadAll() {
     return Observable.fromPromise(this.service.find());
@@ -49,27 +49,33 @@ export class templateService implements templateServiceBase {
   }
 }
 
-export const feathersServiceToken = new InjectionToken<any>('FeatherServiceForTemplate');
-export const templateServiceNameToken = new InjectionToken<string>('TemplateServiceName');
-export const templateServiceToken = new InjectionToken<templateServiceBase>('TemplateService');
+export const backendServiceToken: InjectionToken<Application> = new InjectionToken<Application>('templates.backendservice');
+export const templateServiceNameToken: InjectionToken<string> = new InjectionToken<string>('TemplateServiceName');
+export const templateServiceToken: InjectionToken<ITemplateServiceBase> = new InjectionToken<ITemplateServiceBase>('TemplateService');
 
-export const templateServiceFactory = (injector: Injector) => {
-  var feathers: any;
-  var templateServiceName: string;
-  var uploadServiceName: string;
-  var template_service: templateServiceBase;
-
-  try {
-    feathers = injector.get(feathersServiceToken, null);
-    templateServiceName = injector.get(templateServiceNameToken, 'templates');
-  }
-  catch{
-    console.warn('[templates] No feathers service provided => Will use mock service instead');
-  }
-  if (feathers) {
-    template_service = new templateService(feathers, templateServiceName);
+export const templateServiceFactory = (backendService, serviceName: string = 'templates') => {
+  // var feathers: any;
+  // var templateServiceName: string;
+  // var template_service: ITemplateServiceBase;
+  if (backendService) {
+    console.log('[TEMPLATE SERVICE] Create service instance');
+    return new templateService(backendService, serviceName);
   } else {
-    template_service = new mockTemplateService();
+    console.warn('[TEMPLATE SERVICE] No feathers service provided => Will use mock service instead');
+    return new mockTemplateService();
   }
-  return template_service;
+
+  // try {
+  //   feathers = injector.get(backendServiceToken, null);
+  //   templateServiceName = injector.get(templateServiceNameToken, 'templates');
+  // }
+  // catch{
+  //   console.warn('[templates] No feathers service provided => Will use mock service instead');
+  // }
+  // if (feathers) {
+  //   template_service = new templateService(feathers, templateServiceName);
+  // } else {
+  //   template_service = new mockTemplateService();
+  // }
+  // return template_service;
 }

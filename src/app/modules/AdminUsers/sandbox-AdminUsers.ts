@@ -12,7 +12,9 @@ export const sandboxServiceToken: InjectionToken<ISandboxAdminUsers> = new Injec
 export interface ISandboxAdminUsers {
   users$: Observable<Array<IUser>>;
   role$: Observable<any>;
+  isLoading$: Observable<boolean>;
   loadingUsers$: Observable<boolean>;
+  loadingError$: Observable<string>;
 
   loadUsers(): void;
   selectUser(IUser): void;
@@ -24,10 +26,15 @@ export class sandboxAdminUsers implements ISandboxAdminUsers {
   public users$;
   public selectedUser$;
   public role$;
+  public isLoading$: Observable<boolean>;
   public loadingUsers$: Observable<boolean>;
+  public loadingError$: Observable<string>;
 
   constructor(private store: Store<any>, @Inject(adminUsers_services.adminUsersServiceToken) private usersService: adminUsers_services.IAdminUsersService) {
     this.users$ = this.store.select(adminUsers_selectors.default.getUsersList);
+    this.loadingError$ = this.store.select(adminUsers_selectors.default.getErrorMessage);
+    this.isLoading$ = this.store.select(adminUsers_selectors.default.isLoading);
+
     this.role$ = new Observable<any>(); // TODO: update stream with real "admin user selector"
   }
   public loadUsers() {

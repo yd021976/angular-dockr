@@ -21,7 +21,7 @@ export const AdminUsersServiceFactory = (injector: Injector) => {
 
   try {
     feathers = injector.get(feathersServiceToken);
-    serviceName = injector.get(adminUsersServiceNameToken, 'admin.users');
+    serviceName = injector.get(adminUsersServiceNameToken, 'users');
   }
   catch{
     console.warn('[admin.users] No feathers service provided => Will use mock service instead');

@@ -25,6 +25,11 @@ const error = (state: users_state.error = { hasError: false, error: '' }, action
   switch (action.type) {
     case users_actions.loadingTypes.LOAD_USERS_ERROR:
       return { ...state, hasError: true, error: action.payload }
+    
+    case users_actions.loadingTypes.LOAD_USERS:
+    case users_actions.loadingTypes.LOAD_USERS_SUCCESS:
+      return { ...state, hasError: false, error: '' };
+
     default:
       return state;
   }

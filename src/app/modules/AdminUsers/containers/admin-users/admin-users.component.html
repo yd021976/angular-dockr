@@ -1,4 +1,25 @@
 <div>
+  <H3>
+    Users
+  </H3>
   <app-users-list [users]="sandbox.users$ | async" (selectUser)="selectUser($event)"></app-users-list>
+
+  <H3>
+    User details
+  </H3>
   <app-user-detail [user]="selectedUser$ | async"></app-user-detail>
+
+  <ng-container *ngIf="sandbox.isLoading$ | async">
+    <div>
+      Loading users...
+    </div>
+  </ng-container>
+  <ng-container *ngIf="sandbox.loadingError$ | async as error">
+    <div>
+      <H4>
+        Error loading users :
+        <b>{{error}}</b>
+      </H4>
+    </div>
+  </ng-container>
 </div>

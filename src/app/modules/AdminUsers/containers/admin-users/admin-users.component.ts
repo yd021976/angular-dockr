@@ -14,6 +14,8 @@ export class AdminUsersComponent implements OnInit {
   
   constructor(@Inject(sandboxServiceToken) public sandbox: ISandboxAdminUsers) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.sandbox.loadUsers();
+  }
 
 }

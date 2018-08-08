@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /** services and tokens */
-import { FeathersService } from './feathers/feathers.service';
+import { FeathersService, feathersServiceToken } from './feathers/feathers.service';
 import * as user_service from '../../modules/user.login/services/login.service';
 import * as templates_service from '../../modules/templates/services/template.service';
 import * as admin_users_service from '../../modules/AdminUsers/services/users';
@@ -20,10 +20,17 @@ import * as admin_users_service from '../../modules/AdminUsers/services/users';
   ],
   declarations: [],
   providers: [
-    /** feathers service for TEMPLATE module */
+    /**
+     * Feathers service : The one and only one for the app
+     */
     {
-      provide: templates_service.feathersServiceToken,
+      provide: feathersServiceToken,
       useClass: FeathersService
+    },
+    /** Service for TEMPLATE module */
+    {
+      provide: templates_service.backendServiceToken,
+      useExisting: feathersServiceToken
     },
     {
       provide: templates_service.templateServiceNameToken,
@@ -31,16 +38,16 @@ import * as admin_users_service from '../../modules/AdminUsers/services/users';
     },
     /** Feathers service for USER LOGIN module */
     {
-      provide: user_service.feathersServiceToken,
-      useExisting: templates_service.feathersServiceToken
+      provide: user_service.backendServiceToken,
+      useExisting: feathersServiceToken
     },
-    /**
-     * Feathers service for ADMIN USERS module 
-     */
-    {
-      provide: admin_users_service.feathersServiceToken,
-      useExisting: templates_service.feathersServiceToken
-    }
+    // /**
+    //  * Feathers service for ADMIN USERS module 
+    //  */
+    // {
+    //   provide: admin_users_service.feathersServiceToken,
+    //   useExisting: feathersServiceToken
+    // }
   ]
 })
 export class AppServicesModule { }

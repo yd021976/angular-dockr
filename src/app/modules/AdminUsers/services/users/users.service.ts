@@ -17,9 +17,14 @@ export class adminUsersService implements IAdminUsersService {
     this.service = this.feathers.service(this.feathersServiceName);
   }
 
-
+  /**
+   * Retrive all users except "anonymous"
+   */
   getAll(): Promise<IUser[] | Pagination<IUser>> {
-    return this.service.find();
+    return this.service.find().then((users) => {
+      var data: Array<IUser> = users['data'] ? users['data'] : users;
+      return data.filter(user => user['anonymous'] != true);
+    })
   }
 
 
@@ -36,7 +41,7 @@ export class adminUsersService implements IAdminUsersService {
     return this.service.get(id);
   }
 
-  
+
   removeUser(user: IUser): Promise<IUser> {
     return this.service.remove(user._id);
   }

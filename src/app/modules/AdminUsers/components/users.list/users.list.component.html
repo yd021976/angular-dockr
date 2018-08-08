@@ -1,3 +1,5 @@
-<p>
-  list works!
-</p>
+<ng-container *ngIf="users && users.length!=0">
+<div *ngFor="let user of users">
+  <div>Name:{{user.email}}</div>
+</div>
+</ng-container>

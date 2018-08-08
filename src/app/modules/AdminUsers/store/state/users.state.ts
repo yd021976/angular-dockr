@@ -1,5 +1,4 @@
-import { NormalizedState, normalized, createSchemaSelectors } from 'ngrx-normalizr';
-import * as users_model from '../models';
+import { NormalizedState } from 'ngrx-normalizr';
 
 export type error = {
   hasError: boolean,

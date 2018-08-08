@@ -49,7 +49,7 @@ import { sandboxUserLogin } from './sandbox-user-login';
       {
         provide: user_login_services.LoginServiceToken,
         useFactory: user_login_services.loginServiceFactory,
-        deps: [Injector]
+        deps: [user_login_services.backendServiceToken]
       },
       {
         provide: 'sandbox-user-login',
