@@ -54,9 +54,6 @@ export const templateServiceNameToken: InjectionToken<string> = new InjectionTok
 export const templateServiceToken: InjectionToken<ITemplateServiceBase> = new InjectionToken<ITemplateServiceBase>('TemplateService');
 
 export const templateServiceFactory = (backendService, serviceName: string = 'templates') => {
-  // var feathers: any;
-  // var templateServiceName: string;
-  // var template_service: ITemplateServiceBase;
   if (backendService) {
     console.log('[TEMPLATE SERVICE] Create service instance');
     return new templateService(backendService, serviceName);
@@ -64,18 +61,4 @@ export const templateServiceFactory = (backendService, serviceName: string = 'te
     console.warn('[TEMPLATE SERVICE] No feathers service provided => Will use mock service instead');
     return new mockTemplateService();
   }
-
-  // try {
-  //   feathers = injector.get(backendServiceToken, null);
-  //   templateServiceName = injector.get(templateServiceNameToken, 'templates');
-  // }
-  // catch{
-  //   console.warn('[templates] No feathers service provided => Will use mock service instead');
-  // }
-  // if (feathers) {
-  //   template_service = new templateService(feathers, templateServiceName);
-  // } else {
-  //   template_service = new mockTemplateService();
-  // }
-  // return template_service;
 }

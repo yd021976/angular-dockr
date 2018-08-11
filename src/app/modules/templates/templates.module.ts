@@ -30,6 +30,10 @@ import { TemplateEditorComponent } from './components/template-editor/template-e
     TemplateEditorComponent
   ],
   providers: [
+    // {
+    //   provide: template_module.services.backendServiceToken,
+    //   useValue: null
+    // },
     {
       provide: template_module.services.templateServiceToken,
       useFactory: template_module.services.templateServiceFactory,

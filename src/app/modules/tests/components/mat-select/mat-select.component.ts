@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import {sandboxToken } from '../../sandbox';
 
 @Component({
   selector: 'app-mat-select',
@@ -16,7 +17,12 @@ export class MatSelectComponent implements OnInit {
   ]
   public selectedValue: any = {};
   public valueToSelect: string = "";
-  constructor() { }
+  
+  
+  
+  constructor(@Inject(sandboxToken) private sandbox) {
+    let a = 0;
+  }
 
   ngOnInit() {
   }

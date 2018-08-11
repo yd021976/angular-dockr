@@ -1,8 +1,8 @@
-import { NgModule, Injector } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule } from '@angular/material';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { userLoginRouterModule } from './routes/user.routes.module';
@@ -11,7 +11,8 @@ import * as user_login_components from './components';
 import * as user_login_store from './store';
 import * as user_login_guards from './guards';
 import * as user_login_services from './services';
-import { sandboxUserLogin } from './sandbox-user-login';
+import { sandboxUserLogin, sandboxUserLoginToken } from './sandbox-user-login';
+import { provideBootstrapEffects } from '../../shared/utils';
 /**
  * Depedencies :
  * 
@@ -26,7 +27,8 @@ import { sandboxUserLogin } from './sandbox-user-login';
     MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule,
     userLoginRouterModule,
     StoreModule.forFeature('user', user_login_store.store.reducers.reducer),
-    EffectsModule.forFeature([user_login_store.store.effects.effects]),
+    // EffectsModule.forFeature([user_login_store.store.effects.effects])
+    EffectsModule.forFeature([])
   ],
 
   declarations: [
@@ -41,21 +43,29 @@ import { sandboxUserLogin } from './sandbox-user-login';
 
   exports: [
     user_login_containers.LoginComponent,
-    user_login_containers.LogoutComponent],
-
-  providers:
-    [
-      user_login_guards.loginGuard,
-      {
-        provide: user_login_services.LoginServiceToken,
-        useFactory: user_login_services.loginServiceFactory,
-        deps: [user_login_services.backendServiceToken]
-      },
-      {
-        provide: 'sandbox-user-login',
-        useClass: sandboxUserLogin
-      }
-    ]
+    user_login_containers.LogoutComponent
+  ],
 })
 export class UserLoginModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: UserLoginModule,
+      providers:
+        [
+          user_login_guards.loginGuard,
+          user_login_store.store.effects.effects,
+          {
+            provide: user_login_services.LoginServiceToken,
+            useFactory: user_login_services.loginServiceFactory,
+            deps: [user_login_services.backendServiceToken]
+          },
+          {
+            provide: sandboxUserLoginToken,
+            useClass: sandboxUserLogin,
+            deps: [Store, user_login_services.LoginServiceToken]
+          },
+          provideBootstrapEffects([user_login_store.store.effects.effects])
+        ]
+    }
+  }
 }

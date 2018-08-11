@@ -7,7 +7,7 @@ import * as feathersAuthenticate from 'feathers-authentication-client';
 import * as feathersSocket from 'feathers-socketio/client';
 import * as socketio from 'socket.io-client';
 
-export const feathersServiceToken: InjectionToken<feathersClient.Application> = new InjectionToken<feathersClient.Application>('FEATHERS_SERVICE_BASE');
+export const feathersServiceToken: InjectionToken<FeathersService> = new InjectionToken<FeathersService>('FEATHERS_SERVICE_BASE');
 
 /**
  * Event types
@@ -30,7 +30,7 @@ export type eventHandler = (eventName: string, eventData: any) => void;
 export class FeathersService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
-  private _eventHandlers: eventHandler[];
+  private _eventHandlers: eventHandler[] = [];
   static count: number = 0;
   private currentCounter: number = 0; // For debug purpose ONLY ==> Copy of static "count" property
 
@@ -61,8 +61,9 @@ export class FeathersService {
     if (handler) this._eventHandlers.push(handler);
 
     // Initialize service
-    this._initSocketClient();
-    this._configureFeathers();
+    this._initSocketClient().then(() => {
+      this._configureFeathers();
+    });
   }
 
   /**
@@ -92,10 +93,11 @@ export class FeathersService {
         });
         this._socketio.on('connect', (status) => {
           this.sendEvent('connect', status);
+          resolve(true);
         });
-        resolve(true);
       }
       catch (error) {
+        this.sendEvent('init_socket_error', error);
         reject(error);
       }
     })

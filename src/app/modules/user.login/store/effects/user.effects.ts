@@ -9,11 +9,12 @@ import { Observable } from "rxjs/Observable";
 import { Router } from "@angular/router";
 import * as user_service from '../../services/index';
 import * as user_actions from '../actions/user.actions';
+import * as sandboxToken from '../../sandbox-user-login';
 
 @Injectable()
 export class effects {
   constructor(
-    @Inject(user_service.LoginServiceToken) private featherService: user_service.IUserLoginService,
+    @Inject(sandboxToken.sandboxUserLoginToken) private sandbox:sandboxToken.ISandboxUserLogin,
     private router: Router,
     private actions$: Actions) { }
 
@@ -65,13 +66,13 @@ export class effects {
   //   });
 
 
-  @Effect()
-  logoutUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogout>(user_actions.USER_LOGOUT)
-    .mergeMap((action) =>
-      this.featherService.logout()
-        .then(() => { return new user_actions.userLogoutSuccess() })
-        .catch((error) => { return new user_actions.userLogoutError(error.message) })
-    );
+  // @Effect()
+  // logoutUser$: Observable<Action> = this.actions$.ofType<user_actions.userLogout>(user_actions.USER_LOGOUT)
+  //   .mergeMap((action) =>
+  //     this.sandbox.logout()
+  //       .then(() => { return new user_actions.userLogoutSuccess() })
+  //       .catch((error) => { return new user_actions.userLogoutError(error.message) })
+  //   );
 
   // @Effect()
   // checkAuth$: Observable<Action> = this.actions$.ofType<user_actions.userCheckAuth>(user_actions.USER_CHECK_AUTH)

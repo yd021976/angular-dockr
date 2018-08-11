@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -15,10 +15,11 @@ export interface ISandboxUserLogin {
   isAuthenticated$: Observable<boolean>;
   userRole$: Observable<string>;
   login(credentials: loginCredentials): Promise<boolean>;
-  logout(): void;
+  logout(): Promise<any>;
   authUser(): Promise<userLogin_model.loginSuccess>;
 }
 
+export const sandboxUserLoginToken = new InjectionToken<ISandboxUserLogin>('sandbox');
 
 
 /**
@@ -59,8 +60,10 @@ export class sandboxUserLogin implements ISandboxUserLogin {
     // this.store.dispatch(new userLogin_actions.userLogin({ credentials: credentials, redirectTo: redirectTo }));
   }
 
-  logout() {
-    this.store.dispatch(new userLogin_actions.userLogout());
+  logout(): Promise<any> {
+    return this.loginService.logout()
+      .then(() => this.store.dispatch(new userLogin_actions.userLogoutSuccess()))
+      .catch((error) => this.store.dispatch(new userLogin_actions.userLogoutError(error.message)))
   }
 
   /**

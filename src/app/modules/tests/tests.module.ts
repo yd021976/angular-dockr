@@ -1,9 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { MatSelectComponent } from './components/mat-select/mat-select.component';
 import { testsRouterModule } from './routes/templates.routes.module';
+
+import { backendServiceToken, testServiceToken, testServiceFactory } from './service';
+import { sandboxToken, sandboxTest } from './sandbox';
 
 @NgModule({
   imports: [
@@ -18,4 +21,31 @@ import { testsRouterModule } from './routes/templates.routes.module';
   declarations: [MatSelectComponent],
   exports: [MatSelectComponent]
 })
-export class TestsModule { }
+
+export class TestsModule {
+  constructor() {
+    console.log('[TestsModule] constructor called');
+
+  }
+  static forRoot(backendService: any): ModuleWithProviders {
+    console.group('[TestsModule] forRoot');
+    console.log(backendService);
+    console.groupEnd();
+
+    return {
+      ngModule: TestsModule,
+      providers: [
+        {
+          provide: testServiceToken,
+          useFactory: testServiceFactory,
+          deps: [backendServiceToken]
+        },
+        {
+          provide: sandboxToken,
+          useClass: sandboxTest,
+          deps: [testServiceToken]
+        }
+      ]
+    }
+  }
+}
