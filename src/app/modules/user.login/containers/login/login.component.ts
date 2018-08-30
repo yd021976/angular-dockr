@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import * as user_model from '../../store/models/user.model';
-import { ISandboxUserLogin } from '../../sandbox-user-login';
+import { ISandboxUserLogin, sandboxUserLoginToken } from '../../sandbox-user-login';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscribes: Array<Subscription>;
   private redirectTo: string;
 
-  constructor(@Inject('sandbox-user-login') private sandbox: ISandboxUserLogin, public route: ActivatedRoute, private router: Router) {
+  constructor(@Inject(sandboxUserLoginToken) private sandbox: ISandboxUserLogin, public route: ActivatedRoute, private router: Router) {
     this.AuthError$ = this.sandbox.authenticateErrors$;
     this.subscribes = new Array<Subscription>(); // Streams subscriptions objects (to clean up after destroy)
   }
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Authenticate user and if successfull, redirect to last requested URL if any
+   * Authenticate user and if successfull, redirect to last requested URL if any, else "/" as default (@see ngOnInit)
    */
   onLogin() {
     this.sandbox.login(this.credentials).then((result) => {

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ISandboxUserLogin } from '../../sandbox-user-login';
+import { ISandboxUserLogin, sandboxUserLoginToken } from '../../sandbox-user-login';
 
 @Component({
   selector: 'user-logout',
@@ -11,7 +11,7 @@ export class LogoutComponent implements OnInit {
 
   public isAuthenticated$: Observable<boolean>;
 
-  constructor(@Inject('sandbox-user-login') private sandbox: ISandboxUserLogin) {
+  constructor(@Inject(sandboxUserLoginToken) private sandbox: ISandboxUserLogin) {
     this.isAuthenticated$ = this.sandbox.isAuthenticated$;
   }
 

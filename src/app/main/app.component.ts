@@ -25,15 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(sandbox.sandboxAppToken) public sandbox: sandbox.ISandboxApp, public router: Router) { }
 
-  ngOnInit() {
-    return this.sandbox.initApiBackend()
-      .then((status) => {
-        this.sandbox.authUser();
-      })
-      .catch(error => {
-
-      })
-  }
+  ngOnInit() { }
 
   ngOnDestroy() { }
 

@@ -41,18 +41,18 @@ import * as user_login_service from '../modules/user.login/services';
     MatListModule,
     MatButtonModule,
 
-    StoreDevtoolsModule.instrument({ maxAge: 10 }),
     // Init module
     InitModule,
-
+    
     // Provided Services
     // AppServicesModule,
-
+    
     // App modules
     RoutingModule,
     UiComponentsModule,
     ViewsModule,
-
+    
+    StoreDevtoolsModule.instrument({ maxAge: 10 }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
@@ -62,6 +62,12 @@ import * as user_login_service from '../modules/user.login/services';
   ],
   exports: [],
   providers: [
+    // {
+    //   provide: APP_BOOTSTRAP_LISTENER,
+    //   multi: true,
+    //   useFactory: bootstrapEffects,
+    //   deps: [[new Inject(BOOTSTRAP_EFFECTS)], EffectSources]
+    // },
     {
       provide: user_login_service.backendServiceToken,
       useExisting: feathersServiceToken,
@@ -79,7 +85,7 @@ import * as user_login_service from '../modules/user.login/services';
 
     {
       provide: sandboxAppToken,
-      useClass: mockSandboxApp
+      useClass: sandboxApp
     }
   ],
   bootstrap: [AppComponent]

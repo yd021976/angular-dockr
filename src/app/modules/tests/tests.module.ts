@@ -7,6 +7,8 @@ import { testsRouterModule } from './routes/templates.routes.module';
 
 import { backendServiceToken, testServiceToken, testServiceFactory } from './service';
 import { sandboxToken, sandboxTest } from './sandbox';
+import { EffectsModule } from '@ngrx/effects';
+import { provideBootstrapEffects } from '../../shared/utils';
 
 @NgModule({
   imports: [
@@ -16,7 +18,8 @@ import { sandboxToken, sandboxTest } from './sandbox';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    testsRouterModule
+    testsRouterModule,
+    EffectsModule.forFeature([])
   ],
   declarations: [MatSelectComponent],
   exports: [MatSelectComponent]
@@ -35,6 +38,7 @@ export class TestsModule {
     return {
       ngModule: TestsModule,
       providers: [
+        // provideBootstrapEffects([]),
         {
           provide: testServiceToken,
           useFactory: testServiceFactory,

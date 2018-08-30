@@ -14,7 +14,7 @@ function backendApiService(fService: FeathersService): () => Promise<boolean> {
             }
           });
         }
-      }, 6000);
+      }, 1000);
     })
   }
 }

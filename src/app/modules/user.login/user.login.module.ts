@@ -48,6 +48,7 @@ import { provideBootstrapEffects } from '../../shared/utils';
 })
 export class UserLoginModule {
   static forRoot(): ModuleWithProviders {
+    console.log('[UserLoginModule] forRoot called');
     return {
       ngModule: UserLoginModule,
       providers:

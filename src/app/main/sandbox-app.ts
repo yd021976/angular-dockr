@@ -4,16 +4,14 @@ import { Store } from "@ngrx/store";
 import * as userLogin_service from '../modules/user.login/services';
 import * as userLogin_selectors from '../modules/user.login/store/selectors/user.selectors';
 import * as userLogin_actions from '../modules/user.login/store/actions/user.actions';
-import { eventHandler,feathersServiceToken } from '../shared/services/feathers/feathers.service';
+import { eventHandler, feathersServiceToken } from '../shared/services/feathers/feathers.service';
 
 export const sandboxAppToken: InjectionToken<ISandboxApp> = new InjectionToken<ISandboxApp>('sandbox-app');
 
 export interface ISandboxApp {
   isAuthenticated$: Observable<boolean>;
 
-  initApiBackend(): Promise<boolean>;
   authUser(): void;
-
   navigateLogin();
   navigateLogout();
 }
@@ -25,15 +23,12 @@ export class mockSandboxApp implements ISandboxApp {
   constructor(@Inject(feathersServiceToken) private feathers) {
     let a = 0;
   }
-  initApiBackend(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    })
-  }
   authUser() { }
   navigateLogin() { }
   navigateLogout() { }
 }
+
+
 @Injectable()
 export class sandboxApp implements ISandboxApp {
   public isAuthenticated$: Observable<boolean>;
@@ -47,11 +42,7 @@ export class sandboxApp implements ISandboxApp {
   private _apiBackendHandler(eventName: string, eventData: any) {
   }
 
-  public initApiBackend(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
 
-    });
-  }
   navigateLogin() {
     this.store.dispatch(new userLogin_actions.userLoginNavigate());
   }
