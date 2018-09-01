@@ -15,7 +15,7 @@ import { sandboxUserLogin, sandboxUserLoginToken } from './sandbox-user-login';
 import { provideBootstrapEffects } from '../../shared/utils';
 /**
  * Depedencies :
- * 
+ *
  * "feathersServiceToken"
  *    A feather service that implements "service" interface that must be provided by top level module(s)
  *    If no feather service is provided, this module provide by default a mock service
@@ -64,9 +64,9 @@ export class UserLoginModule {
             provide: sandboxUserLoginToken,
             useClass: sandboxUserLogin,
             deps: [Store, user_login_services.LoginServiceToken]
-          },
-          provideBootstrapEffects([user_login_store.store.effects.effects])
+          }
+          // provideBootstrapEffects([user_login_store.store.effects.effects])
         ]
-    }
+    };
   }
 }
