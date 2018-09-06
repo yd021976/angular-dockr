@@ -34,6 +34,7 @@ export class sandboxApp implements ISandboxApp {
   public isAuthenticated$: Observable<boolean>;
 
   constructor(
+    @Inject(feathersServiceToken) public apiService,
     @Inject(userLogin_service.LoginServiceToken) private userLoginService: userLogin_service.IUserLoginService,
     private store: Store<any>) {
     this.isAuthenticated$ = this.store.select(userLogin_selectors.isAuthenticated);

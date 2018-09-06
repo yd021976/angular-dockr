@@ -5,16 +5,12 @@ import { feathersServiceToken, FeathersService } from '../../shared/services/fea
 function backendApiService(fService: FeathersService): () => Promise<boolean> {
   return (): Promise<boolean> => {
     return new Promise((resolve, reject) => {
+      console.group('[InitModule] Init service start')
       setTimeout(() => {
-        if (fService) {
-          fService.initService((event) => {
-            if (event == 'connect') {
-              console.log('[InitModule] Feather is ready ');
-              resolve();
-            }
-          });
-        }
-      }, 1000);
+        fService.initService().then((status)=>{
+          resolve();
+        });
+      }, 2000);
     })
   }
 }

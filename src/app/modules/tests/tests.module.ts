@@ -25,6 +25,9 @@ import { provideBootstrapEffects } from '../../shared/utils';
   exports: [MatSelectComponent]
 })
 
+/**
+ * 
+ */
 export class TestsModule {
   constructor() {
     console.log('[TestsModule] constructor called');

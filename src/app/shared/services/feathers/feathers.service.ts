@@ -31,6 +31,8 @@ export class FeathersService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
   private _eventHandlers: eventHandler[] = [];
+
+  public isInit: boolean = false; // is service correctly connected ?
   static count: number = 0;
   private currentCounter: number = 0; // For debug purpose ONLY ==> Copy of static "count" property
 
@@ -50,18 +52,19 @@ export class FeathersService {
    * @param handler 
    */
   public subscribe(handler: eventHandler) {
-    this._eventHandlers.push(handler);
+    return this._eventHandlers.push(handler) - 1;
+  }
+  public unsubscribe(handlerRef: number) {
+    this._eventHandlers.splice(handlerRef, 1);
   }
   /**
    * Initialize service
    * 
    * @param handler : Event handler callback to be notified of SokcetIO and Feathers events (@see eventHandler function type)
    */
-  public initService(handler: eventHandler = null) {
-    if (handler) this._eventHandlers.push(handler);
-
+  public initService() {
     // Initialize service
-    this._initSocketClient().then(() => {
+    return this._initSocketClient().then(() => {
       this._configureFeathers();
     });
   }
@@ -84,6 +87,17 @@ export class FeathersService {
     return new Promise<boolean>((resolve, reject) => {
       try {
         this._socketio = socketio(this._config.apiEndPoint);
+        /**
+         * single shot event handler on "connect" and "connect error" : Set init flag
+         */
+        this._socketio.once('connect_error', (error) => {
+          this.isInit = false;
+          resolve(false);
+        });
+        this._socketio.once('connect', () => {
+          this.isInit = true;
+          resolve(true);
+        });
 
         this._socketio.on('connect_error', (error) => {
           this.sendEvent('connect_error', error);
@@ -91,11 +105,12 @@ export class FeathersService {
         this._socketio.on('connect_timeout', (error) => {
           this.sendEvent('connect_timeout', error);
         });
+
         this._socketio.on('connect', (status) => {
           this.sendEvent('connect', status);
-          resolve(true);
         });
       }
+      // General socket error
       catch (error) {
         this.sendEvent('init_socket_error', error);
         reject(error);

@@ -27,10 +27,12 @@ import { backendServiceToken } from '../modules/tests/service';
 import { settings } from './init/settings';
 import { UserLoginModule } from '../modules/user.login/user.login.module';
 import * as user_login_service from '../modules/user.login/services';
+import { InitServiceErrorComponent } from './init-service-error/init-service-error.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InitServiceErrorComponent
   ],
   imports: [
     BrowserModule,
