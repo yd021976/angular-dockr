@@ -33,9 +33,9 @@ export class TestsModule {
     console.log('[TestsModule] constructor called');
 
   }
-  static forRoot(backendService: any): ModuleWithProviders {
+  static forRoot(config: any = {}): ModuleWithProviders {
     console.group('[TestsModule] forRoot');
-    console.log(backendService);
+    console.log(config);
     console.groupEnd();
 
     return {

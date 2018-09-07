@@ -60,7 +60,7 @@ import { InitServiceErrorComponent } from './init-service-error/init-service-err
 
     // SharedModule
     UserLoginModule.forRoot(),
-    TestsModule.forRoot(settings)
+    TestsModule.forRoot()
   ],
   exports: [],
   providers: [

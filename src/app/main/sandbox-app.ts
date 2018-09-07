@@ -4,13 +4,13 @@ import { Store } from "@ngrx/store";
 import * as userLogin_service from '../modules/user.login/services';
 import * as userLogin_selectors from '../modules/user.login/store/selectors/user.selectors';
 import * as userLogin_actions from '../modules/user.login/store/actions/user.actions';
-import { eventHandler, feathersServiceToken } from '../shared/services/feathers/feathers.service';
+import { FeathersService, feathersServiceToken } from '../shared/services/feathers/feathers.service';
 
 export const sandboxAppToken: InjectionToken<ISandboxApp> = new InjectionToken<ISandboxApp>('sandbox-app');
 
 export interface ISandboxApp {
   isAuthenticated$: Observable<boolean>;
-
+  apiService:FeathersService,
   authUser(): void;
   navigateLogin();
   navigateLogout();
@@ -20,7 +20,7 @@ export interface ISandboxApp {
 export class mockSandboxApp implements ISandboxApp {
   isAuthenticated$;
 
-  constructor(@Inject(feathersServiceToken) private feathers) {
+  constructor(@Inject(feathersServiceToken) public apiService) {
     let a = 0;
   }
   authUser() { }

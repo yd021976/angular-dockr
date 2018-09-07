@@ -44,6 +44,9 @@ export class FeathersService {
     if (this._config == null) this._config = config;
     FeathersService.count++;
     this.currentCounter = FeathersService.count;
+
+    this._initSocketClient2();
+    this._configureFeathers();
   }
 
   /**
@@ -79,6 +82,10 @@ export class FeathersService {
     this._eventHandlers.forEach(handler => {
       handler(eventName, eventData);
     })
+  }
+
+  private _initSocketClient2():void{
+    this._socketio = socketio(this._config.apiEndPoint);
   }
   /**
    * 
