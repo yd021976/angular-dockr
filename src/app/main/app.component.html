@@ -1,5 +1,4 @@
-<app-init-service-error *ngIf="!sandbox.apiService.isInit"></app-init-service-error>
-<div *ngIf="sandbox.apiService.isInit">
+<div>
   <app-nav-bar [themes]="themes" (themeChange)="themeChange($event)" [isAuthenticated]="sandbox.isAuthenticated$ | async" (login)="onLogin()"
     (logout)="onLogout()">
   </app-nav-bar>

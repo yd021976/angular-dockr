@@ -4,13 +4,14 @@ import { Store } from "@ngrx/store";
 import * as userLogin_service from '../modules/user.login/services';
 import * as userLogin_selectors from '../modules/user.login/store/selectors/user.selectors';
 import * as userLogin_actions from '../modules/user.login/store/actions/user.actions';
-import { FeathersService, feathersServiceToken } from '../shared/services/feathers/feathers.service';
+import { FeathersService, feathersServiceToken, IConnectionState } from '../shared/services/feathers/feathers.service';
 
 export const sandboxAppToken: InjectionToken<ISandboxApp> = new InjectionToken<ISandboxApp>('sandbox-app');
 
 export interface ISandboxApp {
   isAuthenticated$: Observable<boolean>;
-  apiService:FeathersService,
+  ApiServiceConnectionState$: Observable<IConnectionState>;
+  // apiService: FeathersService,
   authUser(): void;
   navigateLogin();
   navigateLogout();
@@ -19,10 +20,9 @@ export interface ISandboxApp {
 @Injectable()
 export class mockSandboxApp implements ISandboxApp {
   isAuthenticated$;
+  ApiServiceConnectionState$;
 
-  constructor(@Inject(feathersServiceToken) public apiService) {
-    let a = 0;
-  }
+  constructor(@Inject(feathersServiceToken) public apiService) { }
   authUser() { }
   navigateLogin() { }
   navigateLogout() { }
@@ -32,22 +32,19 @@ export class mockSandboxApp implements ISandboxApp {
 @Injectable()
 export class sandboxApp implements ISandboxApp {
   public isAuthenticated$: Observable<boolean>;
+  public ApiServiceConnectionState$: Observable<IConnectionState>;
 
   constructor(
-    @Inject(feathersServiceToken) public apiService,
+    @Inject(feathersServiceToken) private apiService:FeathersService,
     @Inject(userLogin_service.LoginServiceToken) private userLoginService: userLogin_service.IUserLoginService,
     private store: Store<any>) {
     this.isAuthenticated$ = this.store.select(userLogin_selectors.isAuthenticated);
+    this.ApiServiceConnectionState$ = this.apiService.connectionState$;
   }
-
-  private _apiBackendHandler(eventName: string, eventData: any) {
-  }
-
 
   navigateLogin() {
     this.store.dispatch(new userLogin_actions.userLoginNavigate());
   }
-
 
   navigateLogout() {
     this.store.dispatch(new userLogin_actions.userLogoutNavigate());

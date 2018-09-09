@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 
-import { MatSidenavModule, MatToolbarModule, MatExpansionModule, MatListModule, MatButtonModule } from '@angular/material';
+import { MatSidenavModule, MatToolbarModule, MatExpansionModule, MatListModule, MatButtonModule, MatDialogModule } from '@angular/material';
 
 import { RoutingModule } from './routing/routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +34,9 @@ import { InitServiceErrorComponent } from './init-service-error/init-service-err
     AppComponent,
     InitServiceErrorComponent
   ],
+  entryComponents: [
+    InitServiceErrorComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -42,18 +45,19 @@ import { InitServiceErrorComponent } from './init-service-error/init-service-err
     MatExpansionModule,
     MatListModule,
     MatButtonModule,
+    MatDialogModule,
 
     // Init module
     InitModule,
-    
+
     // Provided Services
     // AppServicesModule,
-    
+
     // App modules
     RoutingModule,
     UiComponentsModule,
     ViewsModule,
-    
+
     StoreDevtoolsModule.instrument({ maxAge: 10 }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -95,7 +99,6 @@ import { InitServiceErrorComponent } from './init-service-error/init-service-err
 export class AppModule {
   constructor() {
     console.log('[AppModule] constructor called');
-
   }
 }
 

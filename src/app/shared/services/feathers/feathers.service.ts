@@ -6,6 +6,7 @@ import * as hooks from 'feathers-hooks';
 import * as feathersAuthenticate from 'feathers-authentication-client';
 import * as feathersSocket from 'feathers-socketio/client';
 import * as socketio from 'socket.io-client';
+import { BehaviorSubject } from 'rxjs';
 
 export const feathersServiceToken: InjectionToken<FeathersService> = new InjectionToken<FeathersService>('FEATHERS_SERVICE_BASE');
 
@@ -25,16 +26,24 @@ export enum feathersEvents {
  * SocketIO and Feathers Auth event handler callback signature 
  */
 export type eventHandler = (eventName: string, eventData: any) => void;
+export interface IConnectionState {
+  isConnected: boolean;
+  attemptNumber: number;
+  connectionError: any;
+  user: any;
+}
 
 @Injectable()
 export class FeathersService {
   private _feathers: feathersClient.Application = null;
   private _socketio: socketio.Socket = null;
   private _eventHandlers: eventHandler[] = [];
-
-  public isInit: boolean = false; // is service correctly connected ?
-  static count: number = 0;
+  private connectionState: IConnectionState = { isConnected: false, attemptNumber: 0, connectionError: '', user: null }
   private currentCounter: number = 0; // For debug purpose ONLY ==> Copy of static "count" property
+
+  public connectionState$: BehaviorSubject<IConnectionState>; // Service connection state observable
+
+  static count: number = 0; // Class instances count
 
   /**
    * 
@@ -42,87 +51,43 @@ export class FeathersService {
    */
   constructor(@Optional() @Inject(FEATHERS_CONFIG) private _config: feathersConfig) {
     if (this._config == null) this._config = config;
+
+    // Init Behavior subject for connection state
+    this.connectionState
+    this.connectionState$ = new BehaviorSubject<IConnectionState>(this.connectionState);
+
+    // Class instance count 
     FeathersService.count++;
     this.currentCounter = FeathersService.count;
 
-    this._initSocketClient2();
+    this._initSocketClient();
     this._configureFeathers();
   }
 
-  /**
-   * Subscribe to SocketIo and Feathers events 
-   * 
-   * @param handler 
-   */
-  public subscribe(handler: eventHandler) {
-    return this._eventHandlers.push(handler) - 1;
-  }
-  public unsubscribe(handlerRef: number) {
-    this._eventHandlers.splice(handlerRef, 1);
-  }
-  /**
-   * Initialize service
-   * 
-   * @param handler : Event handler callback to be notified of SokcetIO and Feathers events (@see eventHandler function type)
-   */
-  public initService() {
-    // Initialize service
-    return this._initSocketClient().then(() => {
-      this._configureFeathers();
-    });
-  }
-
-  /**
-   * Notify subscribers of any event
-   * 
-   * @param eventName 
-   * @param eventData 
-   */
-  private sendEvent(eventName: string, eventData: any) {
-    this._eventHandlers.forEach(handler => {
-      handler(eventName, eventData);
-    })
-  }
-
-  private _initSocketClient2():void{
+  private _initSocketClient(): void {
     this._socketio = socketio(this._config.apiEndPoint);
+    this._initSocketClientHandlers();
   }
-  /**
-   * 
-   */
-  private _initSocketClient(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      try {
-        this._socketio = socketio(this._config.apiEndPoint);
-        /**
-         * single shot event handler on "connect" and "connect error" : Set init flag
-         */
-        this._socketio.once('connect_error', (error) => {
-          this.isInit = false;
-          resolve(false);
-        });
-        this._socketio.once('connect', () => {
-          this.isInit = true;
-          resolve(true);
-        });
+  private _initSocketClientHandlers(): void {
+    this._socketio.on('connect_error', (error) => {
+      Object.assign(this.connectionState, { isConnected: false, connectionError: error });
+      this.connectionState$.next(this.connectionState);
+    });
 
-        this._socketio.on('connect_error', (error) => {
-          this.sendEvent('connect_error', error);
-        });
-        this._socketio.on('connect_timeout', (error) => {
-          this.sendEvent('connect_timeout', error);
-        });
+    this._socketio.on('connect_timeout', (error) => {
+      Object.assign(this.connectionState, { isConnected: false, connectionError: error });
+      this.connectionState$.next(this.connectionState);
+    });
 
-        this._socketio.on('connect', (status) => {
-          this.sendEvent('connect', status);
-        });
-      }
-      // General socket error
-      catch (error) {
-        this.sendEvent('init_socket_error', error);
-        reject(error);
-      }
+    this._socketio.on('reconnect_attempt', (attempt) => {
+      Object.assign(this.connectionState, { isConnected: false, attemptNumber: attempt });
+      this.connectionState$.next(this.connectionState);
     })
+
+    this._socketio.on('connect', (status) => {
+      Object.assign(this.connectionState, { isConnected: true, connectionError: '', attemptNumber: 0 });
+      this.connectionState$.next(this.connectionState);
+    });
   }
 
 
@@ -138,19 +103,17 @@ export class FeathersService {
       }));
 
     this._feathers.on('authenticated', (event) => {
-      this.sendEvent('authenticated', event);
+      Object.assign(this.connectionState, { user: this._feathers.get('user') });
+      this.connectionState$.next(this.connectionState);
     });
     this._feathers.on('logout', (event) => {
-      // TODO: Clear current user
+      // Clear current user
       this._feathers.set('user', null);
-
-      // Notify subscribers
-      this.sendEvent('logout', event);
+      Object.assign(this.connectionState, { user: null });
+      this.connectionState$.next(this.connectionState);
     });
 
     this._feathers.on('reauthentication-error', (event) => {
-      this.sendEvent('reauthentication-error', event);
-
       if (event.data.name == 'TokenExpiredError') {
         const user = this._feathers.get('user');
         // if token has expired and user was anonymous, just auth again as anonymous
@@ -159,7 +122,8 @@ export class FeathersService {
             this._feathers.set('user', user)
           })
           .catch(error => {
-            let a = 0;
+            Object.assign(this.connectionState, { user: null });
+            this.connectionState$.next(this.connectionState);
           });
       }
     });
